@@ -6,6 +6,7 @@ import {
   ArrowUpRight, ArrowDownRight, Activity, FileText, Calendar, AlertTriangle, Clock,
   DollarSign, ShieldCheck, RefreshCw, ShoppingCart
 } from 'lucide-react';
+import logo from '../../public/logo.png'
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ export default function Landing() {
             {/* Left side: Logo and nav links */}
             <div className="flex items-center gap-10">
               <a href="/" className="flex items-center">
-                <img src="/src/assets/logo.svg" alt="Clouvie" className="h-12" />
+                <img src={logo} alt="Clouvie" className="h-12" />
               </a>
               <div className="hidden md:flex items-center gap-8">
                 <a 
