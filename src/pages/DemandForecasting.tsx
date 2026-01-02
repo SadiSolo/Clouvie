@@ -99,7 +99,7 @@ export default function DemandForecasting() {
 
   const demandData = generateDemandData();
   const historicalData = demandData.filter(d => d.actual > 0);
-  const forecastData = demandData.filter(d => d.forecast > 0);
+  // ...existing code...
 
   // Model accuracy comparison
   const modelAccuracies: ModelAccuracy[] = [
@@ -168,7 +168,7 @@ export default function DemandForecasting() {
 
   return (
     <div>
-      <Header />
+      <Header title="Dashboard" />
       <div className="p-8">
         {/* Page Header */}
         <div className="mb-8">

@@ -2,13 +2,13 @@ import { Bell, Search, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   notificationCount?: number;
   onNotificationClick?: () => void;
 }
 
-export default function Header({ title, subtitle, notificationCount = 0, onNotificationClick }: HeaderProps) {
+export default function Header({ title = '', subtitle, notificationCount = 0, onNotificationClick }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (

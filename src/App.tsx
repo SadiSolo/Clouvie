@@ -12,7 +12,7 @@ import InventoryIntelligence from './pages/InventoryIntelligence';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
 import Subscription from './pages/Subscription';
-import ComingSoon from './pages/ComingSoon';
+// ...existing code...
 
 function App() {
   return (

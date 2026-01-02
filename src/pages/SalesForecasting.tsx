@@ -362,7 +362,7 @@ export default function SalesForecasting() {
                   borderRadius: '8px',
                   boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                 }}
-                formatter={(value: any, name: string) => {
+                formatter={(value: any, name: string = '') => {
                   if (name === 'Forecast') return [Math.round(value) + ' units', 'Predicted Sales'];
                   if (name === 'Actual') return [Math.round(value) + ' units', 'Past Sales'];
                   if (name === 'Lower Bound') return [Math.round(value), 'Lower Bound'];

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Header from '../components/Header';
 import { 
   Search, Book, Video, FileText, MessageCircle, Headphones,
-  ChevronRight, CheckCircle, AlertCircle, Zap, TrendingUp,
-  DollarSign, Package, Settings, Download, ExternalLink,
+  ChevronRight, AlertCircle, Zap, TrendingUp,
+  DollarSign, Package, Settings, ExternalLink,
   HelpCircle, Lightbulb, PlayCircle, BookOpen, FileQuestion,
   Mail, Phone, Clock, Shield, Rocket, Target
 } from 'lucide-react';
@@ -245,7 +245,7 @@ export default function Support() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header />
+      <Header title="Dashboard" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}

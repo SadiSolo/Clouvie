@@ -74,7 +74,7 @@ export default function InventoryIntelligence() {
   // Calculate key metrics
   const currentStock = inventoryData[inventoryData.length - 1].stockLevel;
   const reorderPoint = inventoryData[inventoryData.length - 1].reorderPoint;
-  const safetyStock = inventoryData[inventoryData.length - 1].safetyStock;
+  // ...existing code...
   const averageDemand = inventoryData.reduce((sum, item) => sum + item.demand, 0) / inventoryData.length;
   const daysToStockout = Math.floor(currentStock / averageDemand);
   const turnoverRate = ((averageDemand * 365) / currentStock).toFixed(2);
@@ -176,11 +176,7 @@ export default function InventoryIntelligence() {
     }
   };
 
-  const getStockHealthColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-amber-600';
-    return 'text-red-600';
-  };
+  // ...existing code...
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -597,11 +593,14 @@ export default function InventoryIntelligence() {
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
-                      data={abcAnalysis}
+                      data={abcAnalysis as any}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ category, percentage }) => `${category.split(' ')[0]}: ${percentage}%`}
+                      label={(props) => {
+                        const item = abcAnalysis[props.index ?? 0];
+                        return `${item.category.split(' ')[0]}: ${item.percentage}%`;
+                      }}
                       outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import { 
-  CreditCard, Check, X, Zap, TrendingUp, Package, Users,
-  ChevronRight, AlertCircle, Download, Receipt, Calendar,
-  Shield, Star, Crown, Sparkles, ArrowUpRight, FileText,
-  DollarSign, Clock, CheckCircle, Award, Lock, ChevronDown
+  CreditCard, Check, X, Package,
+  ChevronRight, Download, Receipt, Calendar,
+  Shield, Star, Crown, ArrowUpRight,
+  CheckCircle,
 } from 'lucide-react';
 
 export default function Subscription() {
@@ -144,7 +144,7 @@ export default function Subscription() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header />
+      <Header title="Dashboard" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}

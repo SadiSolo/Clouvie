@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  TrendingUp, TrendingDown, Target, Package, Sparkles, 
+  TrendingUp, Target, Package, Sparkles, 
   ArrowRight, CheckCircle, AlertCircle, Zap, Users, PlayCircle, 
   ArrowUpRight, ArrowDownRight, Activity, FileText, Calendar, AlertTriangle, Clock,
-  DollarSign, ShieldCheck, RefreshCw, ShoppingCart, ChevronRight
+  DollarSign, ShieldCheck, RefreshCw, ShoppingCart
 } from 'lucide-react';
 
 export default function Landing() {
@@ -12,9 +12,9 @@ export default function Landing() {
   const [customPrice, setCustomPrice] = useState(343.08);
   const [customCost, setCustomCost] = useState(236.22);
   const [demandFactor, setDemandFactor] = useState(1.0);
-  const [animatedRevenue, setAnimatedRevenue] = useState(12847);
-  const [animatedMargin, setAnimatedMargin] = useState(28.4);
-  const [animatedProducts, setAnimatedProducts] = useState(247);
+  // ...existing code...
+  // ...existing code...
+  // ...existing code...
   const [waitlistForm, setWaitlistForm] = useState({
     name: '',
     email: '',
@@ -23,15 +23,7 @@ export default function Landing() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Animate dashboard stats
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimatedRevenue(prev => prev + Math.floor(Math.random() * 50) - 20);
-      setAnimatedMargin(prev => Math.min(35, Math.max(25, prev + (Math.random() - 0.5) * 0.5)));
-      setAnimatedProducts(prev => prev + Math.floor(Math.random() * 3) - 1);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // ...existing code...
 
   // Scroll to waitlist section
   const scrollToWaitlist = () => {
@@ -48,7 +40,12 @@ export default function Landing() {
   const baseDemand = 1000;
 
   // Generate profit curve data
-  const profitCurveData = [];
+  interface ProfitCurvePoint {
+    price: number;
+    profit: number;
+    revenue: number;
+  }
+  const profitCurveData: ProfitCurvePoint[] = [];
   for (let price = customCost * 1.1; price <= basePrice * 2.4; price += (basePrice * 2.4 - customCost * 1.1) / 40) {
     const demand = baseDemand + (basePrice - price) * 2.5 * demandFactor;
     const profit = (price - customCost) * Math.max(0, demand);
