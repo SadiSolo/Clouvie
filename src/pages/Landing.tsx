@@ -22,6 +22,10 @@ export default function Landing() {
     revenue: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://backend.clouvie.com';
 
   // Animate dashboard stats
   // ...existing code...
@@ -72,12 +76,43 @@ export default function Landing() {
   const risk = getRiskLevel();
   const priceChangePercent = ((customPrice - basePrice) / basePrice * 100).toFixed(1);
 
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with your backend/email service
-    console.log('Waitlist submission:', waitlistForm);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
+    setSubmitError(null);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${backendUrl}/api/waitlist`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: waitlistForm.name,
+          email: waitlistForm.email,
+          monthly_revenue_range: waitlistForm.revenue || null,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => '');
+        console.error('Waitlist submission failed', response.status, errorText);
+        throw new Error('Failed to join waitlist. Please try again.');
+      }
+
+      setIsSubmitted(true);
+      setWaitlistForm({ name: '', email: '', revenue: '' });
+    } catch (error) {
+      console.error('Waitlist submission error', error);
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -1958,8 +1993,7 @@ export default function Landing() {
             </p>
           </div>
 
-          {!isSubmitted ? (
-            <form onSubmit={handleWaitlistSubmit} className="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+          <form onSubmit={handleWaitlistSubmit} className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 relative">
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -2006,53 +2040,71 @@ export default function Landing() {
                   onBlur={(e) => {e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.boxShadow = 'none';}}
                 >
                   <option value="">Select range...</option>
-                  <option value="under-50k">Under $50K</option>
-                  <option value="50k-100k">$50K - $100K</option>
-                  <option value="100k-500k">$100K - $500K</option>
-                  <option value="500k-1m">$500K - $1M</option>
-                  <option value="1m-5m">$1M - $5M</option>
-                  <option value="5m-plus">$5M+</option>
+                  <option value="Under $50k">Under $50k</option>
+                  <option value="$50k – $100k">$50k – $100k</option>
+                  <option value="$100k – $500k">$100k – $500k</option>
+                  <option value="$500k – $1M">$500k – $1M</option>
+                  <option value="$1M – $5M">$1M – $5M</option>
+                  <option value="$5M+">$5M+</option>
                 </select>
               </div>
 
+              {submitError && (
+                <p className="mb-4 text-sm text-red-600 text-center">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full px-8 py-4 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                className="w-full px-8 py-4 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{background: '#8B1538'}}
                 onMouseEnter={(e) => e.currentTarget.style.background = '#6B0F2A'}
                 onMouseLeave={(e) => e.currentTarget.style.background = '#8B1538'}
+                disabled={isSubmitting}
               >
                 <Users className="w-5 h-5" />
-                Secure My Spot on Waitlist
+                {isSubmitting ? 'Submitting...' : 'Secure My Spot on Waitlist'}
               </button>
 
               <p className="text-sm text-gray-600 mt-4 text-center">
                 🔒 We respect your privacy. No spam, ever.
               </p>
             </form>
-          ) : (
-            <div className="bg-white rounded-2xl shadow-2xl p-12 text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-12 h-12 text-green-600" />
+
+          {isSubmitted && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+              <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10 text-center max-w-md w-full relative">
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(false)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl leading-none"
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-12 h-12 text-green-600" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-3">
+                  You're On The List! 🎉
+                </h3>
+                <p className="text-lg text-gray-600 mb-4">
+                  Check your email for confirmation and next steps.
+                </p>
+                <p className="text-sm text-gray-500 mb-6">
+                  You can close this or jump into the full demo now.
+                </p>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full px-6 py-3 text-white rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
+                  style={{background: '#8B1538'}}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#6B0F2A'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#8B1538'}
+                >
+                  Try Full Demo
+                </button>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                You're On The List! 🎉
-              </h3>
-              <p className="text-xl text-gray-600 mb-6">
-                Check your email for confirmation and next steps.
-              </p>
-              <p className="text-gray-600">
-                Want to see the full demo now?
-              </p>
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="mt-4 px-8 py-3 text-white rounded-xl font-semibold transition-all"
-                style={{background: '#8B1538'}}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#6B0F2A'}
-                onMouseLeave={(e) => e.currentTarget.style.background = '#8B1538'}
-              >
-                Try Full Demo
-              </button>
             </div>
           )}
         </div>
