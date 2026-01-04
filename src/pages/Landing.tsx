@@ -82,27 +82,55 @@ export default function Landing() {
     setIsSubmitting(true);
 
     try {
+      // Build payload to match backend expectations
+      const payload: { name: string; email: string; monthly_revenue_range?: string } = {
+        name: waitlistForm.name,
+        email: waitlistForm.email,
+      };
+
+      if (waitlistForm.revenue) {
+        payload.monthly_revenue_range = waitlistForm.revenue;
+      }
+
       const response = await fetch(`${backendUrl}/api/waitlist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({
-          name: waitlistForm.name,
-          email: waitlistForm.email,
-          monthly_revenue_range: waitlistForm.revenue || null,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => '');
-        console.error('Waitlist submission failed', response.status, errorText);
-        throw new Error('Failed to join waitlist. Please try again.');
+      let data: any = null;
+      try {
+        data = await response.json();
+      } catch {
+        // Non-JSON response; leave data as null
       }
+
+      if (!response.ok) {
+        console.error('Waitlist submission failed', response.status, data);
+
+        let message = 'Failed to join waitlist. Please try again.';
+
+        // Prefer Laravel validation messages if present
+        if (data?.errors && typeof data.errors === 'object') {
+          const firstKey = Object.keys(data.errors)[0];
+          const firstMsg = data.errors[firstKey]?.[0];
+          if (firstMsg) message = firstMsg;
+        } else if (data?.message) {
+          message = data.message;
+        }
+
+        setSubmitError(message);
+        return;
+      }
+
+      console.log('Waitlist submission success:', data);
 
       setIsSubmitted(true);
       setWaitlistForm({ name: '', email: '', revenue: '' });
+      setSubmitError(null);
     } catch (error) {
       console.error('Waitlist submission error', error);
       setSubmitError(
