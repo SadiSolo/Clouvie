@@ -262,6 +262,32 @@ export default function InventoryIntelligence() {
           </div>
         </div>
 
+        {/* Scenario Simulator Link */}
+        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg p-6 mb-8 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-4 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Target className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Optimize inventory with scenario planning</h2>
+                <p className="text-white/90 text-sm mb-3">
+                  Test inventory scenarios with order quantity optimization, safety stock levels, 
+                  demand variability, lead time impacts, and service level targets.
+                </p>
+                <button
+                  onClick={() => window.location.href = `/scenario-simulator?productId=${selectedProduct.id}`}
+                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                >
+                  <Target className="w-5 h-5" />
+                  Open Scenario Simulator
+                  <ChevronDown className="w-5 h-5 rotate-[-90deg]" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           {/* Current Stock Level */}
@@ -313,6 +339,90 @@ export default function InventoryIntelligence() {
             <div className={`text-3xl font-bold mb-1`}>{stockHealthScore}/100</div>
             <div className="text-sm opacity-90">
               {stockHealthScore >= 80 ? 'Excellent' : stockHealthScore >= 60 ? 'Good' : 'Needs Attention'}
+            </div>
+          </div>
+        </div>
+
+        {/* Scenario Comparison */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-6">Scenario Comparison</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Current Scenario */}
+            <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">📊</span>
+                  <h3 className="font-bold text-gray-800">Current</h3>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Stock Level</div>
+                  <div className="text-2xl font-bold text-gray-800">{currentStock.toLocaleString()} units</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Carrying Cost</div>
+                  <div className="text-xl font-bold text-orange-600">${carryingCost}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Turnover Rate</div>
+                    <div className="text-sm font-semibold text-gray-700">{turnoverRate}x</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Stock Health</div>
+                    <div className="text-sm font-semibold text-gray-700">{stockHealthScore}/100</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Days to Stockout</div>
+                  <div className="text-sm font-semibold text-gray-700">{daysToStockout} days</div>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Recommended Scenario */}
+            <div className="bg-green-50 rounded-xl p-6 border-2 border-green-400">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">✨</span>
+                  <h3 className="font-bold text-gray-800">AI Recommended</h3>
+                </div>
+                <span className="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded">RECOMMENDED</span>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Stock Level</div>
+                  <div className="text-2xl font-bold text-gray-800">{Math.round(eoq).toLocaleString()} units</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Carrying Cost</div>
+                  <div className="text-xl font-bold text-green-600">${(parseFloat(carryingCost.replace(/,/g, '')) * 0.78).toLocaleString()}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Turnover Rate</div>
+                    <div className="text-sm font-semibold text-gray-700">{(parseFloat(turnoverRate) * 1.3).toFixed(2)}x</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Stock Health</div>
+                    <div className="text-sm font-semibold text-gray-700">92/100</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">EOQ Quantity</div>
+                  <div className="text-sm font-semibold text-gray-700">{Math.round(eoq)} units</div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-green-200">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Cost Savings</span>
+                  <span className="font-bold text-green-600">-22%</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import {
   TrendingUp, 
   Activity,
   Package,
+  Target,
   CreditCard,
   Settings,
   HelpCircle,
@@ -13,7 +14,6 @@ import {
   Home,
   Sparkles
 } from 'lucide-react';
-import logo from '../../public/logo.png'
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ export default function Sidebar() {
     { path: '/sales-forecasting', icon: TrendingUp, label: 'Sales Forecasting' },
     { path: '/demand-forecasting', icon: Activity, label: 'Demand Forecasting' },
     { path: '/inventory-intelligence', icon: Package, label: 'Inventory Intelligence' },
+    { path: '/scenario-simulator', icon: Target, label: 'Scenario Simulator' },
     { path: '/subscription', icon: CreditCard, label: 'Subscription' },
     { path: '/settings', icon: Settings, label: 'Setting' },
     { path: '/support', icon: HelpCircle, label: 'Support' },
@@ -34,7 +35,7 @@ export default function Sidebar() {
     <div className="w-64 bg-white dark:bg-gray-800 h-screen flex flex-col border-r border-gray-200 dark:border-gray-700">
       {/* Logo */}
       <div className="p-6 flex items-center gap-3">
-        <img src={logo} alt="Clouvie" className="h-8 w-full" />
+        <img src="/logo.png" alt="Clouvie" className="h-8 w-full" />
       </div>
 
       {/* Back to Homepage Button */}
