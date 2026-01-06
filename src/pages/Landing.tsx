@@ -1182,11 +1182,12 @@ export default function Landing() {
                 <Target className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Test Any Price—Instantly
               </h3>
 
               {/* Realistic demo mockup */}
+              <div className="h-[21.5rem]">  
               <div className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-xl p-4 mb-4 border-2 border-purple-200 shadow-sm">
                 <div className="bg-white rounded-lg p-3 mb-3 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
@@ -1225,6 +1226,8 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
+              
 
               <p className="text-gray-600 mb-6">
                 Drag the slider. See what happens. No math, no guessing—just clear answers.
@@ -1248,12 +1251,13 @@ export default function Landing() {
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Know What's Coming Next Month
               </h3>
 
               {/* Realistic forecast chart */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border-2 border-indigo-200 shadow-sm">
+              <div className='h-80'>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border-2 border-indigo-200 shadow-sm">
                 <div className="bg-white rounded-lg p-3 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-gray-700">30-Day Forecast</span>
@@ -1313,6 +1317,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
 
               <p className="text-gray-600 mb-6">
                 Our AI looks at your past sales and tells you what to expect. Plan inventory, staff, and promotions with confidence.
@@ -1336,12 +1341,11 @@ export default function Landing() {
                 <Package className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Never Run Out, Never Over-Order
               </h3>
-
-              {/* Realistic inventory mockup */}
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border-2 border-emerald-200 shadow-sm">
+              <div className="h-[20rem]">
+                      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border-2 border-emerald-200 shadow-sm">
                 <div className="bg-white rounded-lg p-4 border border-gray-200 mb-3">
                   <div className="flex items-center justify-center h-24 mb-3">
                     <div className="relative w-40 h-20">
@@ -1378,6 +1382,10 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
+
+              {/* Realistic inventory mockup */}
+              
 
               <p className="text-gray-600 mb-6">
                 We tell you exactly when to reorder and how much. Stop tying up cash in slow-moving stock.
@@ -2295,10 +2303,9 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{background: '#8B1538'}}>
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold">Clouvie</span>
+                
+                <img src="/logo.png" alt="Clouvie" className="h-full w-32" />
+                
               </div>
               <p className="text-gray-400">
                 Your Chief Revenue Officer on Automation
@@ -2308,33 +2315,36 @@ export default function Landing() {
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors cursor-pointer">Demo</a></li>
+                <li><a href="#" onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors cursor-pointer">Demo</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2026 Clouvie. All rights reserved.</p>
-            <p className="text-sm mt-2">Made with ❤️ for small businesses</p>
+            {/* <p className="text-sm mt-2">Made with ❤️ for small businesses</p> */}
           </div>
         </div>
       </footer>
