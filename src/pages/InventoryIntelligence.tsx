@@ -246,24 +246,110 @@ export default function InventoryIntelligence() {
             </div>
 
             {/* Quick Actions */}
-            <div className="col-span-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Quick Actions</label>
-              <div className="flex gap-2">
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
+              <div className="col-span-2 ">
+            <div className="w-full flex justify-end gap-4">
+                <div className=''>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Quick Actions</label>
+                
+                  <button className="w-40 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
                   <RefreshCw size={16} />
                   Refresh Data
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all font-medium shadow-sm">
-                  <Download size={16} />
-                  Export Report
-                </button>
+                </div>
+                
+            </div>
+              </div>
+          </div>
+        </div>
+
+        
+
+        {/* Scenario Comparison */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-6">Scenario Comparison</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Current Scenario */}
+            <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">📊</span>
+                  <h3 className="font-bold text-gray-800">Current</h3>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Stock Level</div>
+                  <div className="text-2xl font-bold text-gray-800">{currentStock.toLocaleString()} units</div>
+                </div>
+                {/* <div>
+                  <div className="text-sm text-gray-600">Carrying Cost</div>
+                  <div className="text-xl font-bold text-orange-600">${carryingCost}</div>
+                </div> */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Turnover Rate</div>
+                    <div className="text-sm font-semibold text-gray-700">{turnoverRate}x</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Stock Health</div>
+                    <div className="text-sm font-semibold text-gray-700">{stockHealthScore}/100</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Days to Stockout</div>
+                  <div className="text-sm font-semibold text-gray-700">{daysToStockout} days</div>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Recommended Scenario */}
+            <div className="bg-green-50 rounded-xl p-6 border-2 border-green-400">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">✨</span>
+                  <h3 className="font-bold text-gray-800">AI Recommended</h3>
+                </div>
+                <span className="px-2 py-1 bg-green-600 text-white text-xs font-bold rounded">RECOMMENDED</span>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Stock Level</div>
+                  <div className="text-2xl font-bold text-gray-800">{Math.round(eoq).toLocaleString()} units</div>
+                </div>
+                {/* <div>
+                  <div className="text-sm text-gray-600">Carrying Cost</div>
+                  <div className="text-xl font-bold text-green-600">${(parseFloat(carryingCost.replace(/,/g, '')) * 0.78).toLocaleString()}</div>
+                </div> */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Turnover Rate</div>
+                    <div className="text-sm font-semibold text-gray-700">{(parseFloat(turnoverRate) * 1.3).toFixed(2)}x</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Stock Health</div>
+                    <div className="text-sm font-semibold text-gray-700">92/100</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">EOQ Quantity</div>
+                  <div className="text-sm font-semibold text-gray-700">{Math.round(eoq)} units</div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-green-200">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Cost Savings</span>
+                  <span className="font-bold text-green-600">-22%</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Current Stock Level */}
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
             <div className="flex items-center justify-between mb-2">
@@ -295,14 +381,14 @@ export default function InventoryIntelligence() {
           </div>
 
           {/* Carrying Cost */}
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
+          {/* <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
             <div className="flex items-center justify-between mb-2">
               <DollarSign className="w-8 h-8 opacity-80" />
               <span className="text-sm font-medium opacity-90">Carrying Cost</span>
             </div>
             <div className="text-3xl font-bold mb-1">${carryingCost}</div>
             <div className="text-sm opacity-90">annual estimate</div>
-          </div>
+          </div> */}
 
           {/* Stock Health Score */}
           <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
@@ -316,6 +402,8 @@ export default function InventoryIntelligence() {
             </div>
           </div>
         </div>
+
+        
 
         {/* Stock Alerts */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
@@ -352,9 +440,72 @@ export default function InventoryIntelligence() {
           </div>
         </div>
 
-        {/* Main Inventory Chart */}
+        {/* Current Scenario Stock Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Stock Level Monitoring</h2>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Current Stock Level Monitoring</h2>
+              <p className="text-sm text-gray-600 mt-1">Current inventory trajectory and key thresholds</p>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={inventoryData}>
+              <defs>
+                <linearGradient id="currentStockGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6b7280" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#6b7280" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#1f2937', 
+                  border: 'none', 
+                  borderRadius: '8px',
+                  color: '#fff'
+                }}
+              />
+              <Legend />
+              <Area 
+                type="monotone" 
+                dataKey="stockLevel" 
+                fill="url(#currentStockGradient)" 
+                stroke="#6b7280" 
+                strokeWidth={2}
+                name="Current Stock"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="reorderPoint" 
+                stroke="#f59e0b" 
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                dot={false}
+                name="Reorder Point"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="safetyStock" 
+                stroke="#ef4444" 
+                strokeWidth={2}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Safety Stock"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Recommended Stock Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">AI Recommended Stock Management</h2>
+              <p className="text-sm text-gray-600 mt-1">Optimized inventory levels with EOQ and intelligent reordering</p>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={400}>
             <ComposedChart data={inventoryData}>
               <defs>
@@ -567,99 +718,6 @@ export default function InventoryIntelligence() {
           )}
         </div>
 
-        {/* ABC Analysis & Performance */}
-        <div className="mb-8">
-          <button
-            onClick={() => setShowABCAnalysis(!showABCAnalysis)}
-            className="w-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 rounded-2xl p-6 text-white flex items-center justify-between hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 transition-all mb-6"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Layers className="w-6 h-6" />
-              </div>
-              <div className="text-left">
-                <h2 className="text-xl font-bold mb-1">ABC Analysis & Performance Metrics</h2>
-                <p className="text-sm text-white/80">Category distribution, turnover analysis, and operational metrics</p>
-              </div>
-            </div>
-            {showABCAnalysis ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-          </button>
-
-          {showABCAnalysis && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* ABC Analysis Chart */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">ABC Analysis Distribution</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={abcAnalysis as any}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={(props) => {
-                        const item = abcAnalysis[props.index ?? 0];
-                        return `${item.category.split(' ')[0]}: ${item.percentage}%`;
-                      }}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {abcAnalysis.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="mt-4 space-y-2">
-                  {abcAnalysis.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded" style={{ backgroundColor: item.color }}></div>
-                        <span className="text-gray-700">{item.category}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-bold text-gray-900">{item.count} products</span>
-                        <span className="text-gray-600 ml-2">({item.percentage}% of value)</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Performance Metrics */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Performance Metrics</h3>
-                <div className="space-y-6">
-                  {performanceMetrics.map((metric, index) => (
-                    <div key={index}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-gray-700">{metric.metric}</span>
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs text-gray-500">Target: {metric.target}{metric.unit}</span>
-                          <span className="text-lg font-bold" style={{ color: metric.color }}>
-                            {metric.value}{metric.unit}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full transition-all duration-500" 
-                          style={{ 
-                            width: `${(metric.value / metric.target) * 100}%`,
-                            backgroundColor: metric.color 
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Seasonal Demand Forecast */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
           <div className="flex items-center gap-2 mb-6">
@@ -685,6 +743,31 @@ export default function InventoryIntelligence() {
               <Line type="monotone" dataKey="inventory" stroke="#10b981" strokeWidth={3} strokeDasharray="5 5" name="Planned Inventory" />
             </ComposedChart>
           </ResponsiveContainer>
+        </div>
+        {/* Scenario Simulator Link */}
+        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg p-6 mb-8 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-4 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Target className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Optimize inventory with scenario planning</h2>
+                <p className="text-white/90 text-sm mb-3">
+                  Test inventory scenarios with order quantity optimization, safety stock levels, 
+                  demand variability, lead time impacts, and service level targets.
+                </p>
+                <button
+                  onClick={() => window.location.href = `/scenario-simulator?productId=${selectedProduct.id}`}
+                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                >
+                  <Target className="w-5 h-5" />
+                  Open Scenario Simulator
+                  <ChevronDown className="w-5 h-5 rotate-[-90deg]" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

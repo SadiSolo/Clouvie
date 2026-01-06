@@ -9,6 +9,7 @@ import ProductDetail from './pages/ProductDetail';
 import SalesForecasting from './pages/SalesForecasting';
 import DemandForecasting from './pages/DemandForecasting';
 import InventoryIntelligence from './pages/InventoryIntelligence';
+import ScenarioSimulator from './pages/ScenarioSimulator';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
 import Subscription from './pages/Subscription';
@@ -83,6 +84,14 @@ function App() {
             <Sidebar />
             <div className="flex-1 overflow-auto">
               <InventoryIntelligence />
+            </div>
+          </div>
+        } />
+        <Route path="/scenario-simulator" element={
+          <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+            <Sidebar />
+            <div className="flex-1 overflow-auto">
+              <ScenarioSimulator />
             </div>
           </div>
         } />

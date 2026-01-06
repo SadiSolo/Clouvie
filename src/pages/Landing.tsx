@@ -6,7 +6,6 @@ import {
   ArrowUpRight, ArrowDownRight, Activity, FileText, Calendar, AlertTriangle, Clock,
   DollarSign, ShieldCheck, RefreshCw, ShoppingCart
 } from 'lucide-react';
-import logo from '../../public/logo.png'
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ export default function Landing() {
   const [waitlistForm, setWaitlistForm] = useState({
     name: '',
     email: '',
+    company: '',
     revenue: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -129,7 +129,7 @@ export default function Landing() {
       console.log('Waitlist submission success:', data);
 
       setIsSubmitted(true);
-      setWaitlistForm({ name: '', email: '', revenue: '' });
+      setWaitlistForm({ name: '', email: '', company: '', revenue: '' });
       setSubmitError(null);
     } catch (error) {
       console.error('Waitlist submission error', error);
@@ -152,7 +152,7 @@ export default function Landing() {
             {/* Left side: Logo and nav links */}
             <div className="flex items-center gap-10">
               <a href="/" className="flex items-center">
-                <img src={logo} alt="Clouvie" className="h-4 w-full" />
+                <img src="/logo.png" alt="Clouvie" className="h-4 w-full" />
               </a>
               <div className="hidden md:flex items-center gap-8">
                 <a 
@@ -215,7 +215,7 @@ export default function Landing() {
             </h2>
 
             {/* Sub-headline - One clear benefit */}
-            <p className="text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeIn animation-delay-500">
+            <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed animate-fadeIn animation-delay-500">
               See exactly how each pricing decision affects your profit—before you make it.
             </p>
 
@@ -277,217 +277,143 @@ export default function Landing() {
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 </div>
                 <div className="flex-1 bg-gray-700 rounded px-4 py-1 text-sm text-gray-400 text-center">
-                  app.clouvie.com/price-optimization
+                  app.clouvie.com/scenario-simulator
                 </div>
               </div>
               
-              {/* Main demo area with profit curve + what-if panel */}
+              {/* Main demo area with scenario simulator interface */}
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-b-2xl shadow-2xl border-x border-b border-gray-200">
-                <div className="grid lg:grid-cols-3 gap-6 p-8">
-                  {/* Profit Prediction Curve */}
-                  <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-800">Profit Prediction Curve</h3>
-                        <p className="text-xs text-gray-500">Visualize profit at different price points</p>
-                      </div>
-                      <div className="flex items-center gap-3 text-xs">
-                        <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                          <span className="text-gray-600">Profit</span>
+                <div className="p-8">
+                  {/* Preset Scenarios */}
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Scenarios</h3>
+                    <div className="grid grid-cols-4 gap-3">
+                      {[
+                        { emoji: '🚀', name: 'Aggressive Growth', color: 'from-red-500 to-orange-600' },
+                        { emoji: '🏷️', name: 'Clearance Sale', color: 'from-purple-500 to-pink-600' },
+                        { emoji: '💎', name: 'Premium', color: 'from-indigo-500 to-purple-600' },
+                        { emoji: '🎄', name: 'Seasonal Peak', color: 'from-green-500 to-teal-600' }
+                      ].map((preset, i) => (
+                        <div key={i} className={`bg-gradient-to-br ${preset.color} rounded-lg p-3 text-white text-center cursor-pointer hover:scale-105 transition-transform`}>
+                          <div className="text-2xl mb-1">{preset.emoji}</div>
+                          <div className="text-xs font-semibold">{preset.name}</div>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                          <span className="text-gray-600">Revenue</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* SVG Chart */}
-                    <div className="relative h-64 bg-gradient-to-br from-gray-50 to-white rounded-lg p-4">
-                      <svg viewBox="0 0 600 200" className="w-full h-full">
-                        {/* Grid lines */}
-                        {[0, 50, 100, 150, 200].map((y) => (
-                          <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#E5E7EB" strokeWidth="1" />
-                        ))}
-                        
-                        {/* Profit curve (green) */}
-                        <polyline
-                          points={profitCurveData.map((d, i) => 
-                            `${(i / (profitCurveData.length - 1)) * 600},${200 - (d.profit / Math.max(...profitCurveData.map(p => p.profit)) * 150)}`
-                          ).join(' ')}
-                          fill="none"
-                          stroke="#10b981"
-                          strokeWidth="3"
-                        />
-                        
-                        {/* Profit fill */}
-                        <polygon
-                          points={
-                            `0,200 ` +
-                            profitCurveData.map((d, i) => 
-                              `${(i / (profitCurveData.length - 1)) * 600},${200 - (d.profit / Math.max(...profitCurveData.map(p => p.profit)) * 150)}`
-                            ).join(' ') +
-                            ` 600,200`
-                          }
-                          fill="#10b981"
-                          opacity="0.1"
-                        />
-                        
-                        {/* Revenue curve (blue) */}
-                        <polyline
-                          points={profitCurveData.map((d, i) => 
-                            `${(i / (profitCurveData.length - 1)) * 600},${200 - (d.revenue / Math.max(...profitCurveData.map(p => p.revenue)) * 180)}`
-                          ).join(' ')}
-                          fill="none"
-                          stroke="#3b82f6"
-                          strokeWidth="2"
-                        />
-
-                        {/* Current price indicator */}
-                        <circle 
-                          cx={((customPrice - customCost * 1.1) / (basePrice * 2.4 - customCost * 1.1)) * 600} 
-                          cy={200 - (profitCurveData.find(d => Math.abs(d.price - customPrice) < 5)?.profit || 0) / Math.max(...profitCurveData.map(p => p.profit)) * 150}
-                          r="6" 
-                          fill="#8B1538"
-                          stroke="#fff"
-                          strokeWidth="2"
-                        />
-
-                        {/* Price labels */}
-                        <text x="10" y="195" fontSize="10" fill="#6B7280">${(customCost * 1.1).toFixed(0)}</text>
-                        <text x="280" y="195" fontSize="10" fill="#6B7280">${(basePrice * 1.6).toFixed(0)}</text>
-                        <text x="560" y="195" fontSize="10" fill="#6B7280">${(basePrice * 2.4).toFixed(0)}</text>
-                      </svg>
-
-                      {/* Hover tooltip simulation */}
-                      <div className="absolute top-4 right-4 bg-white border border-gray-200 rounded-lg p-3 shadow-lg text-sm">
-                        <div className="font-semibold text-gray-700 mb-1">${customPrice.toFixed(2)}</div>
-                        <div className="text-green-600 text-xs">profit : ${(customPrice - customCost) * (baseDemand + (basePrice - customPrice) * 2.5 * demandFactor) > 0 ? ((customPrice - customCost) * (baseDemand + (basePrice - customPrice) * 2.5 * demandFactor)).toFixed(0) : '0'}</div>
-                        <div className="text-blue-600 text-xs">revenue : ${(customPrice * Math.max(0, baseDemand + (basePrice - customPrice) * 2.5 * demandFactor)).toFixed(0)}</div>
-                      </div>
-                    </div>
-
-                    {/* Optimal Price Point */}
-                    <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Target className="text-green-600" size={20} />
-                          <span className="font-semibold text-green-800">Optimal Price Point</span>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-green-600">${optimalPoint.price.toFixed(2)}</div>
-                          <div className="text-sm text-green-700">Max Profit: ${optimalPoint.profit.toLocaleString()}</div>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* What-If Analysis Panel */}
-                  <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                    <div className="flex items-center gap-2 mb-6">
-                      <Zap className="text-[#8B1538]" size={24} />
-                      <h3 className="text-lg font-bold text-gray-800">What-If Analysis</h3>
-                    </div>
-
-                    <div className="space-y-6">
-                      {/* Test Price Slider */}
-                      <div>
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    {/* Input Controls */}
+                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <Zap className="w-5 h-5 text-yellow-500" />
+                        Scenario Factors
+                      </h3>
+                      
+                      {/* Price Change Slider */}
+                      <div className="mb-5">
                         <div className="flex items-center justify-between mb-2">
-                          <label className="text-sm font-medium text-gray-700">Test Price</label>
-                          <div className="flex items-center gap-1">
-                            <span className="text-gray-500 text-sm">$</span>
-                            <input
-                              type="number"
-                              value={customPrice.toFixed(2)}
-                              onChange={(e) => setCustomPrice(parseFloat(e.target.value) || customCost * 1.1)}
-                              step="1"
-                              className="w-20 px-2 py-1 border border-[#8B1538] rounded-lg text-base font-bold text-[#8B1538] focus:outline-none focus:ring-2 focus:ring-[#8B1538]"
-                            />
+                          <span className="text-sm font-medium text-gray-700">Price Change</span>
+                          <span className="text-sm font-bold text-indigo-600">-12%</span>
+                        </div>
+                        <div className="relative">
+                          <div className="h-2 bg-gray-200 rounded-full">
+                            <div className="h-2 bg-gradient-to-r from-red-500 to-indigo-600 rounded-full" style={{width: '40%'}}></div>
+                          </div>
+                          <div className="absolute top-0 left-[40%] -translate-x-1/2 -translate-y-1">
+                            <div className="w-4 h-4 bg-indigo-600 rounded-full border-2 border-white shadow-lg"></div>
                           </div>
                         </div>
-                        <input
-                          type="range"
-                          min={customCost * 1.1}
-                          max={basePrice * 2.4}
-                          step="1"
-                          value={customPrice}
-                          onChange={(e) => setCustomPrice(parseFloat(e.target.value))}
-                          className="w-full h-2 bg-gradient-to-r from-red-200 to-rose-200 rounded-lg appearance-none cursor-pointer slider"
-                        />
                         <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>${(customCost * 1.1).toFixed(0)}</span>
-                          <span>${(basePrice * 2.4).toFixed(0)}</span>
+                          <span>-30%</span>
+                          <span>+30%</span>
                         </div>
                       </div>
 
-                      {/* Product Cost Slider */}
-                      <div>
+                      {/* Marketing Spend */}
+                      <div className="mb-5">
                         <div className="flex items-center justify-between mb-2">
-                          <label className="text-sm font-medium text-gray-700">Product Cost</label>
-                          <span className="text-base font-bold text-orange-600">${customCost.toFixed(2)}</span>
+                          <span className="text-sm font-medium text-gray-700">Marketing Spend</span>
+                          <span className="text-sm font-bold text-purple-600">$15,000</span>
                         </div>
-                        <input
-                          type="range"
-                          min={basePrice * 0.35}
-                          max={basePrice * 0.85}
-                          step="0.5"
-                          value={customCost}
-                          onChange={(e) => setCustomCost(parseFloat(e.target.value))}
-                          className="w-full h-2 bg-orange-200 rounded-lg appearance-none cursor-pointer"
-                          style={{
-                            accentColor: '#ea580c'
-                          }}
-                        />
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>${(basePrice * 0.35).toFixed(0)}</span>
-                          <span>${(basePrice * 0.85).toFixed(0)}</span>
+                        <div className="h-2 bg-gray-200 rounded-full">
+                          <div className="h-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full" style={{width: '60%'}}></div>
                         </div>
                       </div>
 
-                      {/* Demand Elasticity Slider */}
-                      <div>
+                      {/* Seasonal Factor */}
+                      <div className="mb-4">
                         <div className="flex items-center justify-between mb-2">
-                          <label className="text-sm font-medium text-gray-700">Demand Elasticity</label>
-                          <span className="text-base font-bold text-blue-600">{demandFactor.toFixed(2)}x</span>
+                          <span className="text-sm font-medium text-gray-700">Seasonal Multiplier</span>
+                          <span className="text-sm font-bold text-green-600">1.5x</span>
                         </div>
-                        <input
-                          type="range"
-                          min="0.5"
-                          max="2"
-                          step="0.01"
-                          value={demandFactor}
-                          onChange={(e) => setDemandFactor(parseFloat(e.target.value))}
-                          className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
-                          style={{
-                            accentColor: '#3b82f6'
-                          }}
-                        />
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>Inelastic (0.5x)</span>
-                          <span>Elastic (2x)</span>
+                        <div className="h-2 bg-gray-200 rounded-full">
+                          <div className="h-2 bg-gradient-to-r from-green-500 to-teal-600 rounded-full" style={{width: '75%'}}></div>
                         </div>
                       </div>
 
-                      {/* Risk Indicator */}
-                      <div className={`p-4 rounded-lg border-2 ${
-                        risk.color === 'green' ? 'bg-green-50 border-green-200' :
-                        risk.color === 'yellow' ? 'bg-yellow-50 border-yellow-200' :
-                        'bg-red-50 border-red-200'
-                      }`}>
-                        <div className="flex items-center gap-3">
-                          <div className="text-2xl">{risk.icon}</div>
-                          <div className="flex-1">
-                            <div className={`font-bold ${
-                              risk.color === 'green' ? 'text-green-700' :
-                              risk.color === 'yellow' ? 'text-yellow-700' :
-                              'text-red-700'
-                            }`}>
-                              {risk.level}
+                      <div className="pt-4 border-t border-gray-200">
+                        <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 font-semibold hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                          <Activity className="w-4 h-4" />
+                          Run Simulation
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Results Preview */}
+                    <div className="space-y-4">
+                      {/* Current vs Scenario */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white rounded-xl shadow-lg p-5 border border-gray-200">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-xl">📊</span>
+                            <span className="text-sm font-bold text-gray-700">Current</span>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900 mb-1">$42,500</div>
+                          <div className="text-xs text-gray-600">Profit</div>
+                        </div>
+                        
+                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-lg p-5 border-2 border-green-400">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xl">✨</span>
+                              <span className="text-sm font-bold text-gray-700">Scenario</span>
                             </div>
-                            <div className="text-xs text-gray-600">
-                              {priceChangePercent}% price change
-                            </div>
+                            <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">+18.5%</span>
+                          </div>
+                          <div className="text-2xl font-bold text-green-700 mb-1">$50,362</div>
+                          <div className="text-xs text-gray-600">Projected Profit</div>
+                        </div>
+                      </div>
+
+                      {/* Key Metrics */}
+                      <div className="bg-white rounded-xl shadow-lg p-5 border border-gray-200">
+                        <h4 className="text-sm font-bold text-gray-800 mb-4">Impact Analysis</h4>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600">Revenue Change</span>
+                            <span className="text-sm font-bold text-blue-600">+$12,450</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600">Demand Impact</span>
+                            <span className="text-sm font-bold text-purple-600">+22.3%</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600">Market Share</span>
+                            <span className="text-sm font-bold text-green-600">+3.2%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Risk Assessment */}
+                      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
+                            <AlertTriangle className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold text-amber-900 mb-1">Moderate Risk</div>
+                            <div className="text-xs text-amber-700">15% price change may impact brand perception</div>
                           </div>
                         </div>
                       </div>
@@ -757,7 +683,7 @@ export default function Landing() {
                 </div>
 
                 {/* AI Confidence Meter */}
-                <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300 shadow-sm">
+                {/* <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300 shadow-sm">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-green-600" />
                     <span className="text-sm font-bold text-green-700">AI Confidence Level</span>
@@ -768,7 +694,7 @@ export default function Landing() {
                     </div>
                     <span className="text-base font-bold text-green-700">92%</span>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Risk Assessment Badge */}
@@ -1256,11 +1182,12 @@ export default function Landing() {
                 <Target className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Test Any Price—Instantly
               </h3>
 
               {/* Realistic demo mockup */}
+              <div className="h-[21.5rem]">  
               <div className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-xl p-4 mb-4 border-2 border-purple-200 shadow-sm">
                 <div className="bg-white rounded-lg p-3 mb-3 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
@@ -1299,6 +1226,8 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
+              
 
               <p className="text-gray-600 mb-6">
                 Drag the slider. See what happens. No math, no guessing—just clear answers.
@@ -1322,12 +1251,13 @@ export default function Landing() {
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Know What's Coming Next Month
               </h3>
 
               {/* Realistic forecast chart */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border-2 border-indigo-200 shadow-sm">
+              <div className='h-80'>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border-2 border-indigo-200 shadow-sm">
                 <div className="bg-white rounded-lg p-3 border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-gray-700">30-Day Forecast</span>
@@ -1387,6 +1317,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
 
               <p className="text-gray-600 mb-6">
                 Our AI looks at your past sales and tells you what to expect. Plan inventory, staff, and promotions with confidence.
@@ -1410,12 +1341,11 @@ export default function Landing() {
                 <Package className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 h-16">
                 Never Run Out, Never Over-Order
               </h3>
-
-              {/* Realistic inventory mockup */}
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border-2 border-emerald-200 shadow-sm">
+              <div className="h-[20rem]">
+                      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 mb-4 border-2 border-emerald-200 shadow-sm">
                 <div className="bg-white rounded-lg p-4 border border-gray-200 mb-3">
                   <div className="flex items-center justify-center h-24 mb-3">
                     <div className="relative w-40 h-20">
@@ -1452,6 +1382,10 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
+              </div>
+
+              {/* Realistic inventory mockup */}
+              
 
               <p className="text-gray-600 mb-6">
                 We tell you exactly when to reorder and how much. Stop tying up cash in slow-moving stock.
@@ -1563,6 +1497,230 @@ export default function Landing() {
             >
               See It In Action →
             </button>
+          </div>
+
+          {/* Cost Savings Calculator */}
+          <div className="mt-20 max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold text-gray-900 mb-4">
+                Calculate Your Annual Savings
+              </h3>
+              <p className="text-lg text-gray-600">
+                See how much you can save by switching to Clouvie
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500 via-pink-500 to-rose-500 rounded-3xl p-1 shadow-2xl">
+              <div className="bg-white rounded-3xl overflow-hidden">
+                <div className="grid lg:grid-cols-2 divide-x divide-gray-200">
+                  {/* Left Panel - Inputs */}
+                  <div className="p-8 lg:p-12">
+                    <h4 className="text-2xl font-bold text-gray-900 mb-6">What's your current setup?</h4>
+                    
+                    {/* Warning Banner */}
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-amber-800">
+                        Select at least one option to see your savings
+                      </p>
+                    </div>
+
+                    {/* Company Size */}
+                    <div className="mb-8">
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        Which Clouvie plan fits you?
+                      </label>
+                      <select 
+                        value={customCost.toString()}
+                        onChange={(e) => setCustomCost(parseFloat(e.target.value))}
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl text-gray-900 font-medium focus:outline-none focus:border-purple-500 bg-white"
+                      >
+                        <option value="0">Select your plan</option>
+                        <option value="0">Free (Up to 10 products)</option>
+                        <option value="588">Starter - $49/mo ($588/year)</option>
+                        <option value="1548">Growth - $129/mo ($1,548/year)</option>
+                        <option value="2988">Scale - $249/mo ($2,988/year)</option>
+                      </select>
+                    </div>
+
+                    {/* Current Tools */}
+                    <div className="mb-6">
+                      <label className="block text-sm font-semibold text-gray-700 mb-4">
+                        What are you using today? (Select all that apply)
+                      </label>
+                      <div className="space-y-3">
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? 1.3 : demandFactor >= 1.3 ? demandFactor - 0.3 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Pricing Consultant/Agency</div>
+                            <div className="text-sm text-gray-600">$10K-$50K/project (Upwork: $1.2K/project)</div>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? demandFactor + 0.5 : demandFactor >= 0.5 ? demandFactor - 0.5 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Enterprise Pricing Software</div>
+                            <div className="text-sm text-gray-600">Revionics ($10K-$100K/year), Zilliant (up to $500K/year)</div>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? demandFactor + 0.4 : demandFactor >= 0.4 ? demandFactor - 0.4 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">In-House Data Analyst</div>
+                            <div className="text-sm text-gray-600">$70K-$130K/year (USA), £28K-43K/year (UK)</div>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? demandFactor + 0.25 : demandFactor >= 0.25 ? demandFactor - 0.25 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Competitor Price Tracking Tools</div>
+                            <div className="text-sm text-gray-600">Competera ($5K-$20K/month + $50K-$100K setup)</div>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? demandFactor + 0.2 : demandFactor >= 0.2 ? demandFactor - 0.2 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">BI Tools + Manual Analysis</div>
+                            <div className="text-sm text-gray-600">Tableau, Power BI, Looker ($5K-$15K/year)</div>
+                          </div>
+                        </label>
+
+                        <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl hover:border-purple-300 cursor-pointer transition-colors">
+                          <input 
+                            type="checkbox" 
+                            className="mt-1 w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
+                            onChange={(e) => setDemandFactor(e.target.checked ? demandFactor + 0.1 : demandFactor >= 0.1 ? demandFactor - 0.1 : demandFactor)}
+                          />
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Excel Spreadsheets + Time</div>
+                            <div className="text-sm text-gray-600">520-1,040 hours/year ($5.2K-$52K/year opportunity cost)</div>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Panel - Results */}
+                  <div className="p-8 lg:p-12 bg-gradient-to-br from-gray-50 to-white">
+                    <div className="flex items-center justify-between mb-8">
+                      <h4 className="text-xl font-bold text-gray-900">Your Savings</h4>
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-100 rounded-full">
+                        <Sparkles className="w-4 h-4 text-purple-600" />
+                        <span className="text-sm font-semibold text-purple-700">Annual</span>
+                      </div>
+                    </div>
+
+                    {/* Current Cost */}
+                    <div className="mb-6 p-5 bg-white rounded-xl border-2 border-gray-200 shadow-sm">
+                      <div className="text-sm text-gray-600 mb-1">Current Annual Spending</div>
+                      <div className="text-3xl font-bold text-gray-900">
+                        ${(Math.round((demandFactor - 1) * 100000)).toLocaleString()}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {demandFactor > 1 ? 'Based on your selections' : 'Select options to calculate'}
+                      </div>
+                    </div>
+
+                    {/* Clouvie Cost */}
+                    <div className="mb-6 p-5 bg-purple-50 rounded-xl border-2 border-purple-200">
+                      <div className="text-sm text-purple-700 mb-1 font-medium">Clouvie Annual Cost</div>
+                      <div className="text-3xl font-bold text-purple-900">
+                        ${customCost > 0 ? customCost.toLocaleString() : '0'}
+                      </div>
+                      <div className="text-xs text-purple-600 mt-1">
+                        {customCost === 0 ? 'Free plan available' : customCost === 588 ? 'Starter plan' : customCost === 1548 ? 'Growth plan (Most Popular)' : customCost === 2988 ? 'Scale plan' : 'Select your plan'}
+                      </div>
+                    </div>
+
+                    {/* Savings */}
+                    <div className="mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-400 shadow-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <TrendingUp className="w-5 h-5 text-green-600" />
+                        <div className="text-sm text-green-700 font-semibold">Annual Savings</div>
+                      </div>
+                      <div className="text-4xl font-bold text-green-700 mb-1">
+                        ${(Math.max(0, Math.round((demandFactor - 1) * 100000) - customCost)).toLocaleString()}
+                      </div>
+                      <div className="text-sm text-green-600 font-medium">
+                        {demandFactor > 1 && customCost > 0
+                          ? `${Math.min(99, Math.round(((Math.round((demandFactor - 1) * 100000) - customCost) / Math.max(1, Math.round((demandFactor - 1) * 100000))) * 100))}% cost reduction`
+                          : customCost === 0 && demandFactor > 1
+                          ? '100% savings with Free plan'
+                          : 'Save up to 99% on revenue optimization'
+                        }
+                      </div>
+                    </div>
+
+                    {/* Monthly Savings */}
+                    <div className="mb-8 p-5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="w-5 h-5 text-blue-600" />
+                        <div className="text-sm text-blue-700 font-semibold">Monthly Savings</div>
+                      </div>
+                      <div className="text-3xl font-bold text-blue-700">
+                        ${(Math.max(0, Math.round(((Math.round((demandFactor - 1) * 100000) - customCost) / 12)))).toLocaleString()}
+                      </div>
+                      <div className="text-xs text-blue-600 mt-1">
+                        {demandFactor > 1 && customCost > 0 ? 'Average monthly savings' : 'Select options to calculate'}
+                      </div>
+                    </div>
+
+                    {/* CTA Button */}
+                    <button
+                      onClick={scrollToWaitlist}
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl py-4 font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
+                    >
+                      Start Saving with Clouvie
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+
+                    <p className="text-center text-sm text-gray-500 mt-4">
+                      <a href="#pricing" className="text-purple-600 hover:underline font-medium">Get an official quote</a> to share with your team
+                    </p>
+
+                    {/* Value Props */}
+                    <div className="mt-8 pt-8 border-t border-gray-200 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">No long-term contracts</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">Setup in minutes, not months</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">ROI in first 30 days</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -2058,6 +2216,21 @@ export default function Landing() {
 
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Company Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={waitlistForm.company}
+                  onChange={(e) => setWaitlistForm({ ...waitlistForm, company: e.target.value })}
+                  placeholder="Your Company Inc."
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl outline-none transition-all"
+                  onFocus={(e) => {e.target.style.borderColor = '#8B1538'; e.target.style.boxShadow = '0 0 0 4px rgba(139, 21, 56, 0.1)';}}
+                  onBlur={(e) => {e.target.style.borderColor = '#d1d5db'; e.target.style.boxShadow = 'none';}}
+                />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Monthly Revenue (Optional)
                 </label>
                 <select
@@ -2144,10 +2317,9 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{background: '#8B1538'}}>
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold">Clouvie</span>
+                
+                <img src="/logo.png" alt="Clouvie" className="h-full w-32" />
+                
               </div>
               <p className="text-gray-400">
                 Your Chief Revenue Officer on Automation
@@ -2157,33 +2329,36 @@ export default function Landing() {
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors cursor-pointer">Demo</a></li>
+                <li><a href="#" onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors cursor-pointer">Demo</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+                {/* <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li> */}
+                <li><p>Coming Soon</p></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2026 Clouvie. All rights reserved.</p>
-            <p className="text-sm mt-2">Made with ❤️ for small businesses</p>
+            {/* <p className="text-sm mt-2">Made with ❤️ for small businesses</p> */}
           </div>
         </div>
       </footer>

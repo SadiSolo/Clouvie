@@ -266,6 +266,90 @@ export default function SalesForecasting() {
           </div>
         </div>
 
+        {/* Scenario Comparison */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-6">Scenario Comparison</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Current Scenario */}
+            <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">📊</span>
+                  <h3 className="font-bold text-gray-800">Current</h3>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Price</div>
+                  <div className="text-2xl font-bold text-gray-800">${selectedProduct.currentPrice.toFixed(2)}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Profit</div>
+                  <div className="text-xl font-bold text-green-600">${totalForecastProfit.toLocaleString()}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Revenue</div>
+                    <div className="text-sm font-semibold text-gray-700">${totalForecastRevenue.toLocaleString()}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Margin</div>
+                    <div className="text-sm font-semibold text-gray-700">35.0%</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Est. Demand</div>
+                  <div className="text-sm font-semibold text-gray-700">{avgHistoricalSales.toLocaleString()} units</div>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Recommended Scenario */}
+            <div className="bg-indigo-50 rounded-xl p-6 border-2 border-indigo-400">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">✨</span>
+                  <h3 className="font-bold text-gray-800">AI Recommended</h3>
+                </div>
+                <span className="px-2 py-1 bg-indigo-600 text-white text-xs font-bold rounded">RECOMMENDED</span>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-sm text-gray-600">Price</div>
+                  <div className="text-2xl font-bold text-gray-800">${selectedProduct.recommendedPrice.toFixed(2)}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600">Profit</div>
+                  <div className="text-xl font-bold text-green-600">${(totalForecastProfit * 1.15).toLocaleString()}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-xs text-gray-600">Revenue</div>
+                    <div className="text-sm font-semibold text-gray-700">${(totalForecastRevenue * 1.12).toLocaleString()}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-600">Margin</div>
+                    <div className="text-sm font-semibold text-gray-700">37.2%</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Est. Demand</div>
+                  <div className="text-sm font-semibold text-gray-700">{avgForecastSales.toLocaleString()} units</div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-indigo-200">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">vs Current</span>
+                  <span className="font-bold text-green-600">+{forecastGrowth.toFixed(1)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
@@ -314,26 +398,147 @@ export default function SalesForecasting() {
           </div>
         </div>
 
-        {/* Main Forecast Chart */}
+        {/* Current Scenario Forecast Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Sales Forecast</h2>
+              <h2 className="text-xl font-bold text-gray-900">Current Scenario Forecast</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-3 h-3 bg-gray-500 rounded-full"></span>
+                  Past sales 
+                  <span className="ml-3 w-8 h-0.5 bg-gray-500" style={{ borderTop: '2px dashed' }}></span>
+                  Current trajectory
+                  <span className="ml-3 w-8 h-3 bg-gray-100 rounded"></span>
+                  Confidence range
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={combinedData}>
+              <defs>
+                <linearGradient id="currentConfidenceGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6b7280" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#6b7280" stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey="date" 
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+              />
+              <YAxis 
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+                label={{ value: 'Units Sold', angle: -90, position: 'insideLeft' }}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#fff', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                }}
+                formatter={(value: any, name: string = '') => {
+                  if (name === 'Current Forecast') return [Math.round(value) + ' units', 'Predicted Sales (Current)'];
+                  if (name === 'Actual') return [Math.round(value) + ' units', 'Past Sales'];
+                  if (name === 'Lower Bound') return [Math.round(value), 'Lower Bound'];
+                  if (name === 'Upper Bound') return [Math.round(value), 'Upper Bound'];
+                  return [value, name];
+                }}
+                labelStyle={{ color: '#374151', fontWeight: 600 }}
+              />
+              <Legend 
+                wrapperStyle={{ paddingTop: '20px' }}
+                iconType="line"
+              />
+              
+              <Area
+                type="monotone"
+                dataKey="upperBound"
+                stroke="none"
+                fill="url(#currentConfidenceGradient)"
+                fillOpacity={1}
+                isAnimationActive={false}
+                legendType="none"
+                hide={true}
+              />
+              <Area
+                type="monotone"
+                dataKey="lowerBound"
+                stroke="none"
+                fill="#fff"
+                fillOpacity={1}
+                isAnimationActive={false}
+                legendType="none"
+                hide={true}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => !d.isForecast ? d.sales : null}
+                stroke="#6b7280" 
+                strokeWidth={3}
+                dot={false}
+                name="Actual"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.sales : null}
+                stroke="#6b7280" 
+                strokeWidth={3}
+                strokeDasharray="8 4"
+                dot={false}
+                name="Current Forecast"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.lowerBound : null}
+                stroke="#9ca3af" 
+                strokeWidth={1.5}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Lower Bound"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.upperBound : null}
+                stroke="#9ca3af" 
+                strokeWidth={1.5}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Upper Bound"
+                connectNulls={false}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Recommended Forecast Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">AI Recommended Forecast</h2>
               <p className="text-sm text-gray-600 mt-1">
                 <span className="inline-flex items-center gap-2">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                   Past sales 
                   <span className="ml-3 w-8 h-0.5 bg-purple-500" style={{ borderTop: '2px dashed' }}></span>
-                  Future predictions
+                  AI optimized predictions
                   <span className="ml-3 w-8 h-3 bg-purple-100 rounded"></span>
                   Confidence range
                 </span>
               </p>
             </div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Export
-            </button>
           </div>
 
           <ResponsiveContainer width="100%" height={400}>
@@ -443,260 +648,30 @@ export default function SalesForecasting() {
           </ResponsiveContainer>
         </div>
 
-        {/* What-If Analysis Section */}
-        <div className="mb-8">
-          <button
-            onClick={() => setShowScenarios(!showScenarios)}
-            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-6 text-white flex items-center justify-between hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-all mb-6"
-          >
+        {/* Scenario Simulator Link */}
+        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg p-6 mb-8 text-white">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Zap className="w-6 h-6" />
+              <div className="p-4 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Target className="w-8 h-8" />
               </div>
-              <div className="text-left">
-                <h2 className="text-xl font-bold mb-1">What-If Analysis Simulator</h2>
-                <p className="text-sm text-white/80">Test price changes and market scenarios to predict outcomes</p>
-              </div>
-            </div>
-            {showScenarios ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-          </button>
-
-          {showScenarios && (
-            <div className="space-y-6">
-              {/* Preset Scenarios */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Price Change Scenarios</h3>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    {scenarios.map((scenario) => (
-                      <div
-                        key={scenario.id}
-                        className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
-                        style={{ borderLeftWidth: '4px', borderLeftColor: scenario.color }}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-bold text-gray-900">{scenario.name}</h4>
-                          <span className="text-sm font-semibold px-2 py-1 bg-gray-100 rounded">
-                            {scenario.priceChange > 0 ? '+' : ''}{scenario.priceChange}%
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2 text-sm">
-                          <div>
-                            <div className="text-gray-600">Demand</div>
-                            <div className={`font-semibold ${scenario.demandImpact >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {scenario.demandImpact >= 0 ? '+' : ''}{scenario.demandImpact.toFixed(1)}%
-                            </div>
-                          </div>
-                          <div>
-                            <div className="text-gray-600">Revenue</div>
-                            <div className={`font-semibold ${scenario.revenueChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {scenario.revenueChange >= 0 ? '+' : ''}{scenario.revenueChange.toFixed(1)}%
-                            </div>
-                          </div>
-                          <div>
-                            <div className="text-gray-600">Profit</div>
-                            <div className={`font-semibold ${scenario.profitChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {scenario.profitChange >= 0 ? '+' : ''}{scenario.profitChange.toFixed(1)}%
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-4">Scenario Comparison</h4>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={scenarioComparisonData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                        <XAxis 
-                          dataKey="name" 
-                          tick={{ fontSize: 11 }}
-                          angle={-15}
-                          textAnchor="end"
-                          height={80}
-                        />
-                        <YAxis tick={{ fontSize: 12 }} />
-                        <Tooltip 
-                          contentStyle={{ 
-                            backgroundColor: '#1f2937', 
-                            border: 'none', 
-                            borderRadius: '8px',
-                            color: '#fff'
-                          }}
-                        />
-                        <Bar dataKey="profit" radius={[8, 8, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </div>
-
-              {/* Custom Scenario Builder */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-indigo-600" />
-                  Custom Scenario Builder
-                </h3>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Price Change (%)
-                      </label>
-                      <input
-                        type="range"
-                        min="-30"
-                        max="30"
-                        value={customScenario.priceChange}
-                        onChange={(e) => setCustomScenario({ ...customScenario, priceChange: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-sm text-gray-600 mt-1">
-                        <span>-30%</span>
-                        <span className="font-bold text-indigo-600">{customScenario.priceChange}%</span>
-                        <span>+30%</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Marketing Spend ($)
-                      </label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="5000"
-                        step="100"
-                        value={customScenario.marketingSpend}
-                        onChange={(e) => setCustomScenario({ ...customScenario, marketingSpend: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-sm text-gray-600 mt-1">
-                        <span>$0</span>
-                        <span className="font-bold text-indigo-600">${customScenario.marketingSpend}</span>
-                        <span>$5,000</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Seasonal Factor
-                      </label>
-                      <input
-                        type="range"
-                        min="0.5"
-                        max="1.5"
-                        step="0.1"
-                        value={customScenario.seasonalFactor}
-                        onChange={(e) => setCustomScenario({ ...customScenario, seasonalFactor: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-sm text-gray-600 mt-1">
-                        <span>0.5x (Low)</span>
-                        <span className="font-bold text-indigo-600">{customScenario.seasonalFactor}x</span>
-                        <span>1.5x (High)</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Competitor Price Change (%)
-                      </label>
-                      <input
-                        type="range"
-                        min="-20"
-                        max="20"
-                        value={customScenario.competitorAction}
-                        onChange={(e) => setCustomScenario({ ...customScenario, competitorAction: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-sm text-gray-600 mt-1">
-                        <span>-20%</span>
-                        <span className="font-bold text-indigo-600">{customScenario.competitorAction}%</span>
-                        <span>+20%</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Discount (%)
-                      </label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="50"
-                        value={customScenario.discount}
-                        onChange={(e) => setCustomScenario({ ...customScenario, discount: parseFloat(e.target.value) })}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-sm text-gray-600 mt-1">
-                        <span>0%</span>
-                        <span className="font-bold text-indigo-600">{customScenario.discount}%</span>
-                        <span>50%</span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setCustomScenario({ priceChange: 0, marketingSpend: 0, seasonalFactor: 1, competitorAction: 0, discount: 0 })}
-                      className="w-full px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                      <RefreshCw className="w-4 h-4" />
-                      Reset Scenario
-                    </button>
-                  </div>
-
-                  <div>
-                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
-                      <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-indigo-600" />
-                        Projected Outcomes
-                      </h4>
-                      
-                      <div className="space-y-4">
-                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                          <div className="text-sm text-gray-600 mb-1">Demand Change</div>
-                          <div className="flex items-baseline gap-2">
-                            <div className={`text-3xl font-bold ${customResults.demandChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {customResults.demandChange >= 0 ? '+' : ''}{customResults.demandChange.toFixed(1)}%
-                            </div>
-                            <div className="text-gray-600">({customResults.demand} units)</div>
-                          </div>
-                        </div>
-
-                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                          <div className="text-sm text-gray-600 mb-1">Revenue Impact</div>
-                          <div className="flex items-baseline gap-2">
-                            <div className={`text-3xl font-bold ${customResults.revenueChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {customResults.revenueChange >= 0 ? '+' : ''}{customResults.revenueChange.toFixed(1)}%
-                            </div>
-                            <div className="text-gray-600">(${(customResults.revenue / 1000).toFixed(1)}k)</div>
-                          </div>
-                        </div>
-
-                        <div className="bg-white rounded-lg p-4 border border-gray-200">
-                          <div className="text-sm text-gray-600 mb-1">Profit Impact</div>
-                          <div className="flex items-baseline gap-2">
-                            <div className={`text-3xl font-bold ${customResults.profitChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {customResults.profitChange >= 0 ? '+' : ''}{customResults.profitChange.toFixed(1)}%
-                            </div>
-                            <div className="text-gray-600">(${(customResults.profit / 1000).toFixed(1)}k)</div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-2 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-200">
-                          <AlertCircle className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                          <p>Results are based on AI models trained on historical data, elasticity ({(selectedProduct.bpe || -1.5).toFixed(2)}), and market conditions.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Need comprehensive scenario analysis?</h2>
+                <p className="text-white/90 text-sm mb-3">
+                  Test sales forecasts with multiple factors including price changes, marketing spend, 
+                  seasonality, competitor actions, and more - all in one powerful simulator.
+                </p>
+                <button
+                  onClick={() => window.location.href = `/scenario-simulator?productId=${selectedProduct.id}`}
+                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                >
+                  <Target className="w-5 h-5" />
+                  Open Scenario Simulator
+                  <ChevronDown className="w-5 h-5 rotate-[-90deg]" />
+                </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

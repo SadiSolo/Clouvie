@@ -14,7 +14,7 @@ export default function Subscription() {
   // Current subscription data
   const currentPlan = {
     name: 'Pro',
-    price: 149,
+    price: 129,
     billingCycle: 'monthly',
     nextBillingDate: '2026-02-03',
     productsUsed: 427,
@@ -66,7 +66,7 @@ export default function Subscription() {
     {
       name: 'Pro',
       tagline: 'For growing businesses',
-      monthlyPrice: 149,
+      monthlyPrice: 129,
       annualPrice: 1430, // ~20% discount
       badge: 'Most Popular',
       color: 'red',
@@ -106,10 +106,10 @@ export default function Subscription() {
   ];
 
   const billingHistory = [
-    { date: '2026-01-03', amount: 149, status: 'paid', invoice: 'INV-2026-001' },
-    { date: '2025-12-03', amount: 149, status: 'paid', invoice: 'INV-2025-012' },
-    { date: '2025-11-03', amount: 149, status: 'paid', invoice: 'INV-2025-011' },
-    { date: '2025-10-03', amount: 149, status: 'paid', invoice: 'INV-2025-010' },
+    { date: '2026-01-03', amount: 129, status: 'paid', invoice: 'INV-2026-001' },
+    { date: '2025-12-03', amount: 129, status: 'paid', invoice: 'INV-2025-012' },
+    { date: '2025-11-03', amount: 129, status: 'paid', invoice: 'INV-2025-011' },
+    { date: '2025-10-03', amount: 129, status: 'paid', invoice: 'INV-2025-010' },
   ];
 
   const paymentMethod = {
