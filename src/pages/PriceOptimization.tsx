@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
-import { TrendingUp, AlertCircle, Target, Zap, DollarSign, Users, Package, ChevronDown, Info, ArrowRight, Sparkles, ShieldCheck, AlertTriangle, Download, RotateCcw, Clock, Calendar, TrendingUpIcon, Layers } from 'lucide-react';
+import { TrendingUp, AlertCircle, Target, DollarSign, Users, Package, ChevronDown, Info, ArrowRight, Sparkles, ShieldCheck, AlertTriangle, RotateCcw, Clock, Calendar, TrendingUpIcon, Layers } from 'lucide-react';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
 export default function PriceOptimization() {
@@ -23,7 +23,7 @@ export default function PriceOptimization() {
   const [customPrice, setCustomPrice] = useState(selectedProduct.recommendedPrice);
   const [customCost, setCustomCost] = useState(selectedProduct.currentPrice * 0.6);
   const [demandFactor, setDemandFactor] = useState(1);
-  const [activePreset, setActivePreset] = useState<string | null>(null);
+  // const [activePreset, setActivePreset] = useState<string | null>(null);
 
   // Update when URL parameter changes
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function PriceOptimization() {
     setCustomPrice(selectedProduct.recommendedPrice);
     setCustomCost(selectedProduct.currentPrice * 0.6);
     setDemandFactor(1);
-    setActivePreset(null);
+    // setActivePreset(null);
   }, [selectedProduct]);
 
   // Calculate metrics based on inputs
@@ -51,29 +51,29 @@ export default function PriceOptimization() {
   const customProfit = (customPrice - customCost) * (1000 + (selectedProduct.currentPrice - customPrice) * 50 * demandFactor);
   
   // Calculate AI confidence based on data quality
-  const calculateConfidence = () => {
-    let confidence = 85; // Base confidence
+  // const calculateConfidence = () => {
+  //   let confidence = 85; // Base confidence
     
-    // Adjust based on price deviation
-    const priceDeviation = Math.abs((customPrice - selectedProduct.recommendedPrice) / selectedProduct.recommendedPrice);
-    if (priceDeviation < 0.05) confidence += 10;
-    else if (priceDeviation > 0.2) confidence -= 15;
+  //   // Adjust based on price deviation
+  //   const priceDeviation = Math.abs((customPrice - selectedProduct.recommendedPrice) / selectedProduct.recommendedPrice);
+  //   if (priceDeviation < 0.05) confidence += 10;
+  //   else if (priceDeviation > 0.2) confidence -= 15;
     
-    // Adjust based on demand factor (more data = more confidence)
-    if (demandFactor >= 0.8 && demandFactor <= 1.2) confidence += 5;
+  //   // Adjust based on demand factor (more data = more confidence)
+  //   if (demandFactor >= 0.8 && demandFactor <= 1.2) confidence += 5;
     
-    return Math.min(Math.max(confidence, 50), 98);
-  };
+  //   return Math.min(Math.max(confidence, 50), 98);
+  // };
 
-  const confidence = calculateConfidence();
+  // const confidence = calculateConfidence();
   
-  const getConfidenceColor = () => {
-    if (confidence >= 90) return { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-300', icon: '🟢' };
-    if (confidence >= 70) return { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'border-yellow-300', icon: '🟡' };
-    return { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-300', icon: '🟠' };
-  };
+  // const getConfidenceColor = () => {
+  //   if (confidence >= 90) return { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-300', icon: '🟢' };
+  //   if (confidence >= 70) return { bg: 'bg-yellow-100', text: 'text-yellow-700', border: 'border-yellow-300', icon: '🟡' };
+  //   return { bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-300', icon: '🟠' };
+  // };
 
-  const confidenceStyle = getConfidenceColor();
+  // const confidenceStyle = getConfidenceColor();
 
   // Generate profit curve data
   const profitCurveData = [];
@@ -93,42 +93,42 @@ export default function PriceOptimization() {
   const optimalPoint = profitCurveData.reduce((max, point) => point.profit > max.profit ? point : max, profitCurveData[0]);
 
   // Strategy Presets
-  const applyPreset = (preset: string) => {
-    setActivePreset(preset);
-    switch (preset) {
-      case 'maximize-profit':
-        // Set to optimal price point
-        setCustomPrice(optimalPoint.price);
-        setDemandFactor(1);
-        break;
-      case 'maximize-revenue':
-        // Lower price to boost volume
-        setCustomPrice(selectedProduct.currentPrice * 0.92);
-        setDemandFactor(1.3);
-        break;
-      case 'market-leader':
-        // Aggressive pricing
-        setCustomPrice(selectedProduct.currentPrice * 0.85);
-        setDemandFactor(1.5);
-        break;
-      case 'balanced':
-        // Middle ground
-        setCustomPrice((selectedProduct.currentPrice + selectedProduct.recommendedPrice) / 2);
-        setDemandFactor(1);
-        break;
-      case 'premium':
-        // High margin positioning
-        setCustomPrice(selectedProduct.currentPrice * 1.15);
-        setDemandFactor(0.8);
-        break;
-    }
-  };
+  // const applyPreset = (preset: string) => {
+  //   setActivePreset(preset);
+  //   switch (preset) {
+  //     case 'maximize-profit':
+  //       // Set to optimal price point
+  //       setCustomPrice(optimalPoint.price);
+  //       setDemandFactor(1);
+  //       break;
+  //     case 'maximize-revenue':
+  //       // Lower price to boost volume
+  //       setCustomPrice(selectedProduct.currentPrice * 0.92);
+  //       setDemandFactor(1.3);
+  //       break;
+  //     case 'market-leader':
+  //       // Aggressive pricing
+  //       setCustomPrice(selectedProduct.currentPrice * 0.85);
+  //       setDemandFactor(1.5);
+  //       break;
+  //     case 'balanced':
+  //       // Middle ground
+  //       setCustomPrice((selectedProduct.currentPrice + selectedProduct.recommendedPrice) / 2);
+  //       setDemandFactor(1);
+  //       break;
+  //     case 'premium':
+  //       // High margin positioning
+  //       setCustomPrice(selectedProduct.currentPrice * 1.15);
+  //       setDemandFactor(0.8);
+  //       break;
+  //   }
+  // };
 
   const resetAnalysis = () => {
     setCustomPrice(selectedProduct.recommendedPrice);
     setCustomCost(selectedProduct.currentPrice * 0.6);
     setDemandFactor(1);
-    setActivePreset(null);
+    // setActivePreset(null);
   };
 
 
@@ -173,21 +173,21 @@ export default function PriceOptimization() {
   ];
 
   // Risk assessment
-  const getRiskLevel = () => {
-    const priceChange = ((customPrice - selectedProduct.currentPrice) / selectedProduct.currentPrice) * 100;
-    if (Math.abs(priceChange) < 5) return { level: 'Low', color: 'green', icon: '🟢' };
-    if (Math.abs(priceChange) < 15) return { level: 'Moderate', color: 'yellow', icon: '🟡' };
-    return { level: 'High', color: 'red', icon: '🔴' };
-  };
+  // const getRiskLevel = () => {
+  //   const priceChange = ((customPrice - selectedProduct.currentPrice) / selectedProduct.currentPrice) * 100;
+  //   if (Math.abs(priceChange) < 5) return { level: 'Low', color: 'green', icon: '🟢' };
+  //   if (Math.abs(priceChange) < 15) return { level: 'Moderate', color: 'yellow', icon: '🟡' };
+  //   return { level: 'High', color: 'red', icon: '🔴' };
+  // };
 
-  const risk = getRiskLevel();
+  // const risk = getRiskLevel();
   
   // Calculate confidence bar color class
-  const getConfidenceColorClass = () => {
-    if (confidence >= 90) return 'h-full transition-all bg-green-500';
-    if (confidence >= 70) return 'h-full transition-all bg-yellow-500';
-    return 'h-full transition-all bg-orange-500';
-  };
+  // const getConfidenceColorClass = () => {
+  //   if (confidence >= 90) return 'h-full transition-all bg-green-500';
+  //   if (confidence >= 70) return 'h-full transition-all bg-yellow-500';
+  //   return 'h-full transition-all bg-orange-500';
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50">

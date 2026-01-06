@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
-import { TrendingUp, TrendingDown, Activity, AlertTriangle, Zap, Target, BarChart3, Calendar, CloudRain, Megaphone, DollarSign, Users, Download, RefreshCw, Info, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, AreaChart, Area, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { TrendingUp, TrendingDown, Activity, AlertTriangle, Target, BarChart3, Calendar, RefreshCw, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { Line, AreaChart, Area, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface DemandDataPoint {
   date: string;
@@ -30,7 +30,6 @@ export default function DemandForecasting() {
   const [forecastModel, setForecastModel] = useState<'arima' | 'prophet' | 'ensemble' | 'deeplearning'>('ensemble');
   const [showDecomposition, setShowDecomposition] = useState(true);
   const [showExplainer, setShowExplainer] = useState(true);
-  const [showScenarios, setShowScenarios] = useState(true);
 
   // Generate demand data with decomposition
   const generateDemandData = (): DemandDataPoint[] => {
@@ -107,16 +106,6 @@ export default function DemandForecasting() {
     { name: 'Prophet', mape: 7.2, rmse: 105, accuracy: 92.8, color: '#8b5cf6' },
     { name: 'Ensemble', mape: 5.8, rmse: 85, accuracy: 94.2, color: '#10b981' },
     { name: 'Deep Learning', mape: 6.5, rmse: 95, accuracy: 93.5, color: '#f59e0b' },
-  ];
-
-  // Demand drivers analysis
-  const demandDrivers = [
-    { factor: 'Price', impact: 85, trend: 'negative' },
-    { factor: 'Marketing', impact: 72, trend: 'positive' },
-    { factor: 'Season', impact: 68, trend: 'positive' },
-    { factor: 'Competition', impact: 55, trend: 'negative' },
-    { factor: 'Weather', impact: 45, trend: 'neutral' },
-    { factor: 'Promotions', impact: 80, trend: 'positive' },
   ];
 
   // Pattern detection

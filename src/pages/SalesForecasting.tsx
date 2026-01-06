@@ -1,18 +1,9 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
-import { TrendingUp, TrendingDown, DollarSign, Package, Zap, Download, RefreshCw, Sparkles, BarChart3, Target, Activity, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Area, ComposedChart } from 'recharts';
+import { TrendingUp, TrendingDown, DollarSign, Package, Sparkles, Target, Activity, ChevronDown } from 'lucide-react';
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Area, ComposedChart } from 'recharts';
 
-interface Scenario {
-  id: string;
-  name: string;
-  priceChange: number;
-  demandImpact: number;
-  revenueChange: number;
-  profitChange: number;
-  color: string;
-}
 
 interface ForecastDataPoint {
   date: string;
@@ -29,14 +20,6 @@ export default function SalesForecasting() {
   const [selectedProduct, setSelectedProduct] = useState(topMovers[0]);
   const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
   const [forecastMethod, setForecastMethod] = useState<'ai' | 'linear' | 'exponential'>('ai');
-  const [showScenarios, setShowScenarios] = useState(true);
-  const [customScenario, setCustomScenario] = useState({
-    priceChange: 0,
-    marketingSpend: 0,
-    seasonalFactor: 1,
-    competitorAction: 0,
-    discount: 0
-  });
 
   // Generate historical data
   const generateHistoricalData = (): ForecastDataPoint[] => {
@@ -115,89 +98,6 @@ export default function SalesForecasting() {
   const historicalData = generateHistoricalData();
   const forecastData = generateForecast();
   const combinedData = [...historicalData, ...forecastData];
-
-  // Calculate What-If Scenarios
-  const calculateScenario = (name: string, priceChange: number, color: string): Scenario => {
-    const elasticity = selectedProduct.bpe || -1.5;
-    const demandImpact = elasticity * (priceChange / 100);
-    const newPrice = selectedProduct.currentPrice * (1 + priceChange / 100);
-    const newDemand = 1000 * (1 + demandImpact);
-    const currentRevenue = selectedProduct.currentPrice * 1000;
-    const newRevenue = newPrice * newDemand;
-    const revenueChange = ((newRevenue - currentRevenue) / currentRevenue) * 100;
-    const profitChange = revenueChange * 1.2;
-    
-    return {
-      id: name.toLowerCase().replace(/\s+/g, '-'),
-      name,
-      priceChange,
-      demandImpact: demandImpact * 100,
-      revenueChange,
-      profitChange,
-      color
-    };
-  };
-
-  const scenarios: Scenario[] = [
-    calculateScenario('Aggressive Discount', -15, '#ef4444'),
-    calculateScenario('Moderate Discount', -10, '#f97316'),
-    calculateScenario('Base Case', 0, '#3b82f6'),
-    calculateScenario('Slight Increase', +5, '#8b5cf6'),
-    calculateScenario('Premium Pricing', +12, '#ec4899'),
-  ];
-
-  const generateScenarioData = () => {
-    return scenarios.map(scenario => {
-      const baseSales = 1000;
-      const demandChange = scenario.demandImpact / 100;
-      const newSales = baseSales * (1 + demandChange);
-      const newPrice = selectedProduct.currentPrice * (1 + scenario.priceChange / 100);
-      const revenue = newSales * newPrice;
-      const profit = revenue * 0.35;
-      
-      return {
-        name: scenario.name,
-        sales: Math.round(newSales),
-        revenue: Math.round(revenue),
-        profit: Math.round(profit),
-        fill: scenario.color
-      };
-    });
-  };
-
-  const scenarioComparisonData = generateScenarioData();
-
-  // Custom Scenario Calculator
-  const calculateCustomScenario = () => {
-    const { priceChange, marketingSpend, seasonalFactor, competitorAction, discount } = customScenario;
-    
-    const elasticity = selectedProduct.bpe || -1.5;
-    const baseDemand = 1000;
-    
-    const priceImpact = elasticity * (priceChange / 100);
-    const marketingImpact = Math.log(1 + marketingSpend / 1000) * 0.15;
-    const seasonalImpact = (seasonalFactor - 1);
-    const competitorImpact = -(competitorAction / 100) * 0.3;
-    const discountImpact = (discount / 100) * 0.8; // Discount boosts demand
-    
-    const totalDemandChange = priceImpact + marketingImpact + seasonalImpact + competitorImpact + discountImpact;
-    const newDemand = baseDemand * (1 + totalDemandChange);
-    const effectivePrice = selectedProduct.currentPrice * (1 + priceChange / 100) * (1 - discount / 100);
-    const newRevenue = effectivePrice * newDemand;
-    const currentRevenue = selectedProduct.currentPrice * baseDemand;
-    const revenueChange = ((newRevenue - currentRevenue) / currentRevenue) * 100;
-    
-    return {
-      demand: Math.round(newDemand),
-      demandChange: totalDemandChange * 100,
-      revenue: Math.round(newRevenue),
-      revenueChange,
-      profit: Math.round(newRevenue * 0.35),
-      profitChange: revenueChange * 1.2
-    };
-  };
-
-  const customResults = calculateCustomScenario();
 
   // Key Metrics
   const avgHistoricalSales = Math.round(historicalData.reduce((sum, d) => sum + d.sales, 0) / historicalData.length);

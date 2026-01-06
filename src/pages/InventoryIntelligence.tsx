@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
-import { Package, AlertTriangle, AlertCircle, Clock, DollarSign, BarChart3, Target, RefreshCw, Download, Zap, Info, ChevronDown, ChevronUp, Calendar, Layers, ShoppingCart } from 'lucide-react';
-import { Bar, Line, Area, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell, PieChart, Pie } from 'recharts';
+import { Package, AlertTriangle, AlertCircle, Clock, BarChart3, Target, RefreshCw, Zap, Info, ChevronDown, ChevronUp, Calendar, ShoppingCart } from 'lucide-react';
+import { Bar, Line, Area, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface InventoryItem {
   date: string;
@@ -14,13 +14,6 @@ interface InventoryItem {
   leadTime: number;
 }
 
-interface ABCCategory {
-  category: string;
-  value: number;
-  percentage: number;
-  color: string;
-  count: number;
-}
 
 interface StockAlert {
   product: string;
@@ -36,7 +29,6 @@ export default function InventoryIntelligence() {
   const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
   const [showOptimization, setShowOptimization] = useState(true);
   const [showExplainer, setShowExplainer] = useState(true);
-  const [showABCAnalysis, setShowABCAnalysis] = useState(true);
   
   // Generate inventory data
   const generateInventoryData = (): InventoryItem[] => {
@@ -78,20 +70,12 @@ export default function InventoryIntelligence() {
   const averageDemand = inventoryData.reduce((sum, item) => sum + item.demand, 0) / inventoryData.length;
   const daysToStockout = Math.floor(currentStock / averageDemand);
   const turnoverRate = ((averageDemand * 365) / currentStock).toFixed(2);
-  const carryingCost = (currentStock * selectedProduct.currentPrice * 0.25).toFixed(2);
   
   // Calculate EOQ (Economic Order Quantity)
   const annualDemand = averageDemand * 365;
   const orderingCost = 50; // Fixed cost per order
   const holdingCostPerUnit = selectedProduct.currentPrice * 0.25;
   const eoq = Math.sqrt((2 * annualDemand * orderingCost) / holdingCostPerUnit);
-
-  // ABC Analysis Data
-  const abcAnalysis: ABCCategory[] = [
-    { category: 'A - High Value', value: 80, percentage: 80, color: '#10b981', count: 8 },
-    { category: 'B - Medium Value', value: 15, percentage: 15, color: '#f59e0b', count: 12 },
-    { category: 'C - Low Value', value: 5, percentage: 5, color: '#ef4444', count: 28 }
-  ];
 
   // Stock Alerts
   const stockAlerts: StockAlert[] = [
@@ -123,14 +107,6 @@ export default function InventoryIntelligence() {
       message: 'No sales in 60 days - Consider clearance',
       excessUnits: 120
     }
-  ];
-
-  // Inventory Performance Metrics
-  const performanceMetrics = [
-    { metric: 'Stock Accuracy', value: 94.5, target: 95, unit: '%', color: '#10b981' },
-    { metric: 'Fill Rate', value: 96.2, target: 98, unit: '%', color: '#3b82f6' },
-    { metric: 'Order Cycle Time', value: 4.2, target: 3, unit: 'days', color: '#f59e0b' },
-    { metric: 'Perfect Order Rate', value: 88.7, target: 90, unit: '%', color: '#8b5cf6' }
   ];
 
   // Reorder Recommendations

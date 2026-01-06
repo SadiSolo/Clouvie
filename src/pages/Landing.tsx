@@ -9,7 +9,6 @@ import {
 
 export default function Landing() {
   const navigate = useNavigate();
-  const [customPrice, setCustomPrice] = useState(343.08);
   const [customCost, setCustomCost] = useState(236.22);
   const [demandFactor, setDemandFactor] = useState(1.0);
   // ...existing code...
@@ -61,20 +60,6 @@ export default function Landing() {
       revenue: parseFloat(revenue.toFixed(0)),
     });
   }
-
-  // Find optimal price
-  const optimalPoint = profitCurveData.reduce((max, point) => point.profit > max.profit ? point : max, profitCurveData[0]);
-
-  // Calculate risk level
-  const getRiskLevel = () => {
-    const priceChange = ((customPrice - basePrice) / basePrice) * 100;
-    if (Math.abs(priceChange) < 5) return { level: 'Low Risk', color: 'green', icon: '🟢' };
-    if (Math.abs(priceChange) < 15) return { level: 'Moderate Risk', color: 'yellow', icon: '🟡' };
-    return { level: 'High Risk', color: 'red', icon: '🔴' };
-  };
-
-  const risk = getRiskLevel();
-  const priceChangePercent = ((customPrice - basePrice) / basePrice * 100).toFixed(1);
 
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
