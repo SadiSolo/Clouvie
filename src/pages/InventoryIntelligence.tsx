@@ -256,86 +256,7 @@ export default function InventoryIntelligence() {
           </div>
         </div>
 
-        {/* Scenario Simulator Link */}
-        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg p-6 mb-8 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-4 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Target className="w-8 h-8" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold mb-2">Optimize inventory with scenario planning</h2>
-                <p className="text-white/90 text-sm mb-3">
-                  Test inventory scenarios with order quantity optimization, safety stock levels, 
-                  demand variability, lead time impacts, and service level targets.
-                </p>
-                <button
-                  onClick={() => window.location.href = `/scenario-simulator?productId=${selectedProduct.id}`}
-                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
-                >
-                  <Target className="w-5 h-5" />
-                  Open Scenario Simulator
-                  <ChevronDown className="w-5 h-5 rotate-[-90deg]" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          {/* Current Stock Level */}
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-2">
-              <Package className="w-8 h-8 opacity-80" />
-              <span className="text-sm font-medium opacity-90">Current Stock</span>
-            </div>
-            <div className="text-3xl font-bold mb-1">{currentStock}</div>
-            <div className="text-sm opacity-90">units available</div>
-          </div>
-
-          {/* Days to Stockout */}
-          <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-6 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-2">
-              <Clock className="w-8 h-8 opacity-80" />
-              <span className="text-sm font-medium opacity-90">Days to Stockout</span>
-            </div>
-            <div className="text-3xl font-bold mb-1">{daysToStockout}</div>
-            <div className="text-sm opacity-90">at current rate</div>
-          </div>
-
-          {/* Turnover Rate */}
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-2">
-              <RefreshCw className="w-8 h-8 opacity-80" />
-              <span className="text-sm font-medium opacity-90">Turnover Rate</span>
-            </div>
-            <div className="text-3xl font-bold mb-1">{turnoverRate}x</div>
-            <div className="text-sm opacity-90">times per year</div>
-          </div>
-
-          {/* Carrying Cost */}
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-2">
-              <DollarSign className="w-8 h-8 opacity-80" />
-              <span className="text-sm font-medium opacity-90">Carrying Cost</span>
-            </div>
-            <div className="text-3xl font-bold mb-1">${carryingCost}</div>
-            <div className="text-sm opacity-90">annual estimate</div>
-          </div>
-
-          {/* Stock Health Score */}
-          <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
-            <div className="flex items-center justify-between mb-2">
-              <Target className="w-8 h-8 opacity-80" />
-              <span className="text-sm font-medium opacity-90">Health Score</span>
-            </div>
-            <div className={`text-3xl font-bold mb-1`}>{stockHealthScore}/100</div>
-            <div className="text-sm opacity-90">
-              {stockHealthScore >= 80 ? 'Excellent' : stockHealthScore >= 60 ? 'Good' : 'Needs Attention'}
-            </div>
-          </div>
-        </div>
+        
 
         {/* Scenario Comparison */}
         <div className="mb-8">
@@ -355,10 +276,10 @@ export default function InventoryIntelligence() {
                   <div className="text-sm text-gray-600">Stock Level</div>
                   <div className="text-2xl font-bold text-gray-800">{currentStock.toLocaleString()} units</div>
                 </div>
-                <div>
+                {/* <div>
                   <div className="text-sm text-gray-600">Carrying Cost</div>
                   <div className="text-xl font-bold text-orange-600">${carryingCost}</div>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <div className="text-xs text-gray-600">Turnover Rate</div>
@@ -391,10 +312,10 @@ export default function InventoryIntelligence() {
                   <div className="text-sm text-gray-600">Stock Level</div>
                   <div className="text-2xl font-bold text-gray-800">{Math.round(eoq).toLocaleString()} units</div>
                 </div>
-                <div>
+                {/* <div>
                   <div className="text-sm text-gray-600">Carrying Cost</div>
                   <div className="text-xl font-bold text-green-600">${(parseFloat(carryingCost.replace(/,/g, '')) * 0.78).toLocaleString()}</div>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <div className="text-xs text-gray-600">Turnover Rate</div>
@@ -420,6 +341,63 @@ export default function InventoryIntelligence() {
             </div>
           </div>
         </div>
+
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Current Stock Level */}
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between mb-2">
+              <Package className="w-8 h-8 opacity-80" />
+              <span className="text-sm font-medium opacity-90">Current Stock</span>
+            </div>
+            <div className="text-3xl font-bold mb-1">{currentStock}</div>
+            <div className="text-sm opacity-90">units available</div>
+          </div>
+
+          {/* Days to Stockout */}
+          <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between mb-2">
+              <Clock className="w-8 h-8 opacity-80" />
+              <span className="text-sm font-medium opacity-90">Days to Stockout</span>
+            </div>
+            <div className="text-3xl font-bold mb-1">{daysToStockout}</div>
+            <div className="text-sm opacity-90">at current rate</div>
+          </div>
+
+          {/* Turnover Rate */}
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between mb-2">
+              <RefreshCw className="w-8 h-8 opacity-80" />
+              <span className="text-sm font-medium opacity-90">Turnover Rate</span>
+            </div>
+            <div className="text-3xl font-bold mb-1">{turnoverRate}x</div>
+            <div className="text-sm opacity-90">times per year</div>
+          </div>
+
+          {/* Carrying Cost */}
+          {/* <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between mb-2">
+              <DollarSign className="w-8 h-8 opacity-80" />
+              <span className="text-sm font-medium opacity-90">Carrying Cost</span>
+            </div>
+            <div className="text-3xl font-bold mb-1">${carryingCost}</div>
+            <div className="text-sm opacity-90">annual estimate</div>
+          </div> */}
+
+          {/* Stock Health Score */}
+          <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between mb-2">
+              <Target className="w-8 h-8 opacity-80" />
+              <span className="text-sm font-medium opacity-90">Health Score</span>
+            </div>
+            <div className={`text-3xl font-bold mb-1`}>{stockHealthScore}/100</div>
+            <div className="text-sm opacity-90">
+              {stockHealthScore >= 80 ? 'Excellent' : stockHealthScore >= 60 ? 'Good' : 'Needs Attention'}
+            </div>
+          </div>
+        </div>
+
+        
 
         {/* Stock Alerts */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
@@ -759,6 +737,31 @@ export default function InventoryIntelligence() {
               <Line type="monotone" dataKey="inventory" stroke="#10b981" strokeWidth={3} strokeDasharray="5 5" name="Planned Inventory" />
             </ComposedChart>
           </ResponsiveContainer>
+        </div>
+        {/* Scenario Simulator Link */}
+        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg p-6 mb-8 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-4 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Target className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Optimize inventory with scenario planning</h2>
+                <p className="text-white/90 text-sm mb-3">
+                  Test inventory scenarios with order quantity optimization, safety stock levels, 
+                  demand variability, lead time impacts, and service level targets.
+                </p>
+                <button
+                  onClick={() => window.location.href = `/scenario-simulator?productId=${selectedProduct.id}`}
+                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-bold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                >
+                  <Target className="w-5 h-5" />
+                  Open Scenario Simulator
+                  <ChevronDown className="w-5 h-5 rotate-[-90deg]" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

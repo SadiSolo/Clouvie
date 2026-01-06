@@ -200,46 +200,7 @@ export default function DemandForecasting() {
           </div>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <Target className="w-10 h-10 opacity-80" />
-              <span className="text-2xl font-bold">{modelAccuracies.find(m => m.name === forecastModel.charAt(0).toUpperCase() + forecastModel.slice(1))?.accuracy || 94.2}%</span>
-            </div>
-            <div className="text-sm opacity-90">Model Accuracy</div>
-            <div className="text-xs opacity-75 mt-1">MAPE: {modelAccuracies.find(m => m.name === forecastModel.charAt(0).toUpperCase() + forecastModel.slice(1))?.mape || 5.8}%</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 opacity-80" />
-              <span className="text-2xl font-bold">+8.5%</span>
-            </div>
-            <div className="text-sm opacity-90">Projected Growth</div>
-            <div className="text-xs opacity-75 mt-1">Next {timeframe === '7d' ? '7 days' : timeframe === '30d' ? '30 days' : timeframe === '90d' ? '90 days' : 'year'}</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <Activity className="w-10 h-10 opacity-80" />
-              <span className="text-2xl font-bold">{volatility}%</span>
-            </div>
-            <div className="text-sm opacity-90">Demand Volatility</div>
-            <div className="text-xs opacity-75 mt-1">Risk Score: {riskScore.toFixed(0)}/100</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <AlertTriangle className="w-10 h-10 opacity-80" />
-              <span className="text-2xl font-bold">{anomalyCount}</span>
-            </div>
-            <div className="text-sm opacity-90">Anomalies Detected</div>
-            <div className="text-xs opacity-75 mt-1">Past {timeframe === '7d' ? '7 days' : '30 days'}</div>
-          </div>
-        </div>
-
-        {/* Scenario Comparison */}
+         {/* Scenario Comparison */}
         <div className="mb-8">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Scenario Comparison</h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -324,6 +285,47 @@ export default function DemandForecasting() {
             </div>
           </div>
         </div>
+
+        {/* Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <Target className="w-10 h-10 opacity-80" />
+              <span className="text-2xl font-bold">{modelAccuracies.find(m => m.name === forecastModel.charAt(0).toUpperCase() + forecastModel.slice(1))?.accuracy || 94.2}%</span>
+            </div>
+            <div className="text-sm opacity-90">Model Accuracy</div>
+            <div className="text-xs opacity-75 mt-1">MAPE: {modelAccuracies.find(m => m.name === forecastModel.charAt(0).toUpperCase() + forecastModel.slice(1))?.mape || 5.8}%</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <TrendingUp className="w-10 h-10 opacity-80" />
+              <span className="text-2xl font-bold">+8.5%</span>
+            </div>
+            <div className="text-sm opacity-90">Projected Growth</div>
+            <div className="text-xs opacity-75 mt-1">Next {timeframe === '7d' ? '7 days' : timeframe === '30d' ? '30 days' : timeframe === '90d' ? '90 days' : 'year'}</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <Activity className="w-10 h-10 opacity-80" />
+              <span className="text-2xl font-bold">{volatility}%</span>
+            </div>
+            <div className="text-sm opacity-90">Demand Volatility</div>
+            <div className="text-xs opacity-75 mt-1">Risk Score: {riskScore.toFixed(0)}/100</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <AlertTriangle className="w-10 h-10 opacity-80" />
+              <span className="text-2xl font-bold">{anomalyCount}</span>
+            </div>
+            <div className="text-sm opacity-90">Anomalies Detected</div>
+            <div className="text-xs opacity-75 mt-1">Past {timeframe === '7d' ? '7 days' : '30 days'}</div>
+          </div>
+        </div>
+
+       
 
         {/* Current Scenario Forecast Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">

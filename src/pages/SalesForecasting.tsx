@@ -266,54 +266,6 @@ export default function SalesForecasting() {
           </div>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <Package className="w-8 h-8 opacity-80" />
-              <div className="flex items-center gap-1 text-sm">
-                {forecastGrowth >= 0 ? (
-                  <TrendingUp className="w-4 h-4" />
-                ) : (
-                  <TrendingDown className="w-4 h-4" />
-                )}
-                <span>{forecastGrowth >= 0 ? '+' : ''}{forecastGrowth.toFixed(1)}%</span>
-              </div>
-            </div>
-            <div className="text-3xl font-bold mb-1">{avgForecastSales}</div>
-            <div className="text-blue-100 text-sm">Avg Daily Sales (Forecast)</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <DollarSign className="w-8 h-8 opacity-80" />
-              <Sparkles className="w-5 h-5 opacity-80" />
-            </div>
-            <div className="text-3xl font-bold mb-1">${(totalForecastRevenue / 1000).toFixed(0)}k</div>
-            <div className="text-emerald-100 text-sm">Projected Revenue</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <Target className="w-8 h-8 opacity-80" />
-              <TrendingUp className="w-5 h-5 opacity-80" />
-            </div>
-            <div className="text-3xl font-bold mb-1">${(totalForecastProfit / 1000).toFixed(0)}k</div>
-            <div className="text-purple-100 text-sm">Projected Profit</div>
-          </div>
-
-          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <Activity className="w-8 h-8 opacity-80" />
-              <div className="px-2 py-1 bg-white/20 rounded text-xs font-semibold">
-                {forecastMethod === 'ai' ? 'AI' : forecastMethod === 'linear' ? 'LINEAR' : 'EXPO'}
-              </div>
-            </div>
-            <div className="text-3xl font-bold mb-1">94%</div>
-            <div className="text-orange-100 text-sm">Model Accuracy</div>
-          </div>
-        </div>
-
         {/* Scenario Comparison */}
         <div className="mb-8">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Scenario Comparison</h2>
@@ -395,6 +347,54 @@ export default function SalesForecasting() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <Package className="w-8 h-8 opacity-80" />
+              <div className="flex items-center gap-1 text-sm">
+                {forecastGrowth >= 0 ? (
+                  <TrendingUp className="w-4 h-4" />
+                ) : (
+                  <TrendingDown className="w-4 h-4" />
+                )}
+                <span>{forecastGrowth >= 0 ? '+' : ''}{forecastGrowth.toFixed(1)}%</span>
+              </div>
+            </div>
+            <div className="text-3xl font-bold mb-1">{avgForecastSales}</div>
+            <div className="text-blue-100 text-sm">Avg Daily Sales (Forecast)</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <DollarSign className="w-8 h-8 opacity-80" />
+              <Sparkles className="w-5 h-5 opacity-80" />
+            </div>
+            <div className="text-3xl font-bold mb-1">${(totalForecastRevenue / 1000).toFixed(0)}k</div>
+            <div className="text-emerald-100 text-sm">Projected Revenue</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <Target className="w-8 h-8 opacity-80" />
+              <TrendingUp className="w-5 h-5 opacity-80" />
+            </div>
+            <div className="text-3xl font-bold mb-1">${(totalForecastProfit / 1000).toFixed(0)}k</div>
+            <div className="text-purple-100 text-sm">Projected Profit</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <Activity className="w-8 h-8 opacity-80" />
+              <div className="px-2 py-1 bg-white/20 rounded text-xs font-semibold">
+                {forecastMethod === 'ai' ? 'AI' : forecastMethod === 'linear' ? 'LINEAR' : 'EXPO'}
+              </div>
+            </div>
+            <div className="text-3xl font-bold mb-1">94%</div>
+            <div className="text-orange-100 text-sm">Model Accuracy</div>
           </div>
         </div>
 

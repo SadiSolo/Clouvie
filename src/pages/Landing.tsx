@@ -215,7 +215,7 @@ export default function Landing() {
             </h2>
 
             {/* Sub-headline - One clear benefit */}
-            <p className="text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeIn animation-delay-500">
+            <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed animate-fadeIn animation-delay-500">
               See exactly how each pricing decision affects your profit—before you make it.
             </p>
 
@@ -683,7 +683,7 @@ export default function Landing() {
                 </div>
 
                 {/* AI Confidence Meter */}
-                <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300 shadow-sm">
+                {/* <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300 shadow-sm">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-green-600" />
                     <span className="text-sm font-bold text-green-700">AI Confidence Level</span>
@@ -694,7 +694,7 @@ export default function Landing() {
                     </div>
                     <span className="text-base font-bold text-green-700">92%</span>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Risk Assessment Badge */}

@@ -2372,7 +2372,7 @@ export default function ScenarioSimulator() {
         </div>
 
         {/* Outcome Metrics Dashboard */}
-        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-200 p-6 mb-6">\n          <div className="flex items-center gap-2 mb-6">
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-200 p-6 mb-6">          <div className="flex items-center gap-2 mb-6">
             <BarChart3 className="text-indigo-600" size={24} />
             <h2 className="text-xl font-bold text-gray-800">Scenario Outcomes</h2>
           </div>
