@@ -2303,7 +2303,7 @@ export default function Landing() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 
-                <img src="/logo.png" alt="Clouvie" className="h-full w-32" />
+                <img src="/logo_white.png" alt="Clouvie" className="h-full w-32" />
                 
               </div>
               <p className="text-gray-400">
