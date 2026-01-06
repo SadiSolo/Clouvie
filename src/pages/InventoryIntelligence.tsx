@@ -248,16 +248,10 @@ export default function InventoryIntelligence() {
             {/* Quick Actions */}
             <div className="col-span-2">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Quick Actions</label>
-              <div className="flex gap-2">
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
-                  <RefreshCw size={16} />
-                  Refresh Data
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all font-medium shadow-sm">
-                  <Download size={16} />
-                  Export Report
-                </button>
-              </div>
+              <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
+                <RefreshCw size={16} />
+                Refresh Data
+              </button>
             </div>
           </div>
         </div>
@@ -462,9 +456,72 @@ export default function InventoryIntelligence() {
           </div>
         </div>
 
-        {/* Main Inventory Chart */}
+        {/* Current Scenario Stock Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Stock Level Monitoring</h2>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Current Stock Level Monitoring</h2>
+              <p className="text-sm text-gray-600 mt-1">Current inventory trajectory and key thresholds</p>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={inventoryData}>
+              <defs>
+                <linearGradient id="currentStockGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6b7280" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#6b7280" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#1f2937', 
+                  border: 'none', 
+                  borderRadius: '8px',
+                  color: '#fff'
+                }}
+              />
+              <Legend />
+              <Area 
+                type="monotone" 
+                dataKey="stockLevel" 
+                fill="url(#currentStockGradient)" 
+                stroke="#6b7280" 
+                strokeWidth={2}
+                name="Current Stock"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="reorderPoint" 
+                stroke="#f59e0b" 
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                dot={false}
+                name="Reorder Point"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="safetyStock" 
+                stroke="#ef4444" 
+                strokeWidth={2}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Safety Stock"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Recommended Stock Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">AI Recommended Stock Management</h2>
+              <p className="text-sm text-gray-600 mt-1">Optimized inventory levels with EOQ and intelligent reordering</p>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={400}>
             <ComposedChart data={inventoryData}>
               <defs>
@@ -674,99 +731,6 @@ export default function InventoryIntelligence() {
                 </div>
               </div>
             </>
-          )}
-        </div>
-
-        {/* ABC Analysis & Performance */}
-        <div className="mb-8">
-          <button
-            onClick={() => setShowABCAnalysis(!showABCAnalysis)}
-            className="w-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 rounded-2xl p-6 text-white flex items-center justify-between hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 transition-all mb-6"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Layers className="w-6 h-6" />
-              </div>
-              <div className="text-left">
-                <h2 className="text-xl font-bold mb-1">ABC Analysis & Performance Metrics</h2>
-                <p className="text-sm text-white/80">Category distribution, turnover analysis, and operational metrics</p>
-              </div>
-            </div>
-            {showABCAnalysis ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-          </button>
-
-          {showABCAnalysis && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* ABC Analysis Chart */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">ABC Analysis Distribution</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={abcAnalysis as any}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={(props) => {
-                        const item = abcAnalysis[props.index ?? 0];
-                        return `${item.category.split(' ')[0]}: ${item.percentage}%`;
-                      }}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {abcAnalysis.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="mt-4 space-y-2">
-                  {abcAnalysis.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded" style={{ backgroundColor: item.color }}></div>
-                        <span className="text-gray-700">{item.category}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-bold text-gray-900">{item.count} products</span>
-                        <span className="text-gray-600 ml-2">({item.percentage}% of value)</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Performance Metrics */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Performance Metrics</h3>
-                <div className="space-y-6">
-                  {performanceMetrics.map((metric, index) => (
-                    <div key={index}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-gray-700">{metric.metric}</span>
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs text-gray-500">Target: {metric.target}{metric.unit}</span>
-                          <span className="text-lg font-bold" style={{ color: metric.color }}>
-                            {metric.value}{metric.unit}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full transition-all duration-500" 
-                          style={{ 
-                            width: `${(metric.value / metric.target) * 100}%`,
-                            backgroundColor: metric.color 
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           )}
         </div>
 

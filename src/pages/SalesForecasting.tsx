@@ -398,26 +398,147 @@ export default function SalesForecasting() {
           </div>
         </div>
 
-        {/* Main Forecast Chart */}
+        {/* Current Scenario Forecast Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Sales Forecast</h2>
+              <h2 className="text-xl font-bold text-gray-900">Current Scenario Forecast</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-3 h-3 bg-gray-500 rounded-full"></span>
+                  Past sales 
+                  <span className="ml-3 w-8 h-0.5 bg-gray-500" style={{ borderTop: '2px dashed' }}></span>
+                  Current trajectory
+                  <span className="ml-3 w-8 h-3 bg-gray-100 rounded"></span>
+                  Confidence range
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={combinedData}>
+              <defs>
+                <linearGradient id="currentConfidenceGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6b7280" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#6b7280" stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey="date" 
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+              />
+              <YAxis 
+                tick={{ fontSize: 12 }}
+                stroke="#6b7280"
+                label={{ value: 'Units Sold', angle: -90, position: 'insideLeft' }}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#fff', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                }}
+                formatter={(value: any, name: string = '') => {
+                  if (name === 'Current Forecast') return [Math.round(value) + ' units', 'Predicted Sales (Current)'];
+                  if (name === 'Actual') return [Math.round(value) + ' units', 'Past Sales'];
+                  if (name === 'Lower Bound') return [Math.round(value), 'Lower Bound'];
+                  if (name === 'Upper Bound') return [Math.round(value), 'Upper Bound'];
+                  return [value, name];
+                }}
+                labelStyle={{ color: '#374151', fontWeight: 600 }}
+              />
+              <Legend 
+                wrapperStyle={{ paddingTop: '20px' }}
+                iconType="line"
+              />
+              
+              <Area
+                type="monotone"
+                dataKey="upperBound"
+                stroke="none"
+                fill="url(#currentConfidenceGradient)"
+                fillOpacity={1}
+                isAnimationActive={false}
+                legendType="none"
+                hide={true}
+              />
+              <Area
+                type="monotone"
+                dataKey="lowerBound"
+                stroke="none"
+                fill="#fff"
+                fillOpacity={1}
+                isAnimationActive={false}
+                legendType="none"
+                hide={true}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => !d.isForecast ? d.sales : null}
+                stroke="#6b7280" 
+                strokeWidth={3}
+                dot={false}
+                name="Actual"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.sales : null}
+                stroke="#6b7280" 
+                strokeWidth={3}
+                strokeDasharray="8 4"
+                dot={false}
+                name="Current Forecast"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.lowerBound : null}
+                stroke="#9ca3af" 
+                strokeWidth={1.5}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Lower Bound"
+                connectNulls={false}
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey={(d: any) => d.isForecast ? d.upperBound : null}
+                stroke="#9ca3af" 
+                strokeWidth={1.5}
+                strokeDasharray="3 3"
+                dot={false}
+                name="Upper Bound"
+                connectNulls={false}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Recommended Forecast Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">AI Recommended Forecast</h2>
               <p className="text-sm text-gray-600 mt-1">
                 <span className="inline-flex items-center gap-2">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                   Past sales 
                   <span className="ml-3 w-8 h-0.5 bg-purple-500" style={{ borderTop: '2px dashed' }}></span>
-                  Future predictions
+                  AI optimized predictions
                   <span className="ml-3 w-8 h-3 bg-purple-100 rounded"></span>
                   Confidence range
                 </span>
               </p>
             </div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Export
-            </button>
           </div>
 
           <ResponsiveContainer width="100%" height={400}>

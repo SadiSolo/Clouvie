@@ -325,10 +325,102 @@ export default function DemandForecasting() {
           </div>
         </div>
 
-        {/* Main Forecast Chart */}
+        {/* Current Scenario Forecast Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Demand Forecast with Confidence Intervals</h2>
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Current Scenario Forecast</h2>
+              <p className="text-sm text-gray-600 mt-1">Demand prediction based on current pricing and conditions</p>
+            </div>
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                <span className="text-gray-600">Historical</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                <span className="text-gray-600">Current Forecast</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-0.5 bg-gray-300"></div>
+                <span className="text-gray-600">Confidence Range</span>
+              </div>
+            </div>
+          </div>
+          
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={demandData}>
+              <defs>
+                <linearGradient id="currentConfidenceGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6b7280" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#6b7280" stopOpacity={0.05}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#6b7280" />
+              <YAxis tick={{ fontSize: 12 }} stroke="#6b7280" label={{ value: 'Demand Units', angle: -90, position: 'insideLeft' }} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#fff', 
+                  border: '1px solid #e5e7eb', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                }}
+              />
+              <Legend wrapperStyle={{ paddingTop: '20px' }} />
+              
+              <Area
+                type="monotone"
+                dataKey="upperBound"
+                stroke="none"
+                fill="url(#currentConfidenceGradient)"
+                fillOpacity={1}
+                legendType="none"
+              />
+              <Area
+                type="monotone"
+                dataKey="lowerBound"
+                stroke="none"
+                fill="#fff"
+                fillOpacity={1}
+                legendType="none"
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey="actual" 
+                stroke="#6b7280" 
+                strokeWidth={3}
+                dot={(props: any) => {
+                  const point = demandData[props.index];
+                  if (point?.isAnomaly) {
+                    return <circle {...props} r={6} fill="#ef4444" stroke="#fff" strokeWidth={2} />;
+                  }
+                  return null;
+                }}
+                name="Actual Demand"
+              />
+              
+              <Line 
+                type="monotone" 
+                dataKey="forecast" 
+                stroke="#6b7280" 
+                strokeWidth={3}
+                strokeDasharray="8 4"
+                dot={false}
+                name="Current Forecast"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Recommended Forecast Chart */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">AI Recommended Forecast</h2>
+              <p className="text-sm text-gray-600 mt-1">Optimized demand prediction with AI-recommended pricing strategy</p>
+            </div>
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
@@ -336,7 +428,7 @@ export default function DemandForecasting() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span className="text-gray-600">Forecast</span>
+                <span className="text-gray-600">AI Forecast</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-0.5 bg-purple-300"></div>
@@ -578,69 +670,6 @@ export default function DemandForecasting() {
               </div>
             </>
           )}
-        </div>
-
-        {/* Model Comparison & Demand Drivers */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Model Accuracy Comparison */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Model Accuracy Comparison</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={modelAccuracies}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#1f2937', 
-                    border: 'none', 
-                    borderRadius: '8px',
-                    color: '#fff'
-                  }}
-                />
-                <Bar dataKey="accuracy" radius={[8, 8, 0, 0]}>
-                  {modelAccuracies.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-            <div className="mt-4 text-sm text-gray-600">
-              <p className="font-semibold mb-2">Metrics explained:</p>
-              <ul className="space-y-1">
-                <li>• <span className="font-medium">MAPE:</span> Mean Absolute Percentage Error (lower is better)</li>
-                <li>• <span className="font-medium">RMSE:</span> Root Mean Square Error (lower is better)</li>
-                <li>• <span className="font-medium">Accuracy:</span> Overall prediction accuracy</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Demand Drivers */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Top Demand Drivers</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <RadarChart data={demandDrivers}>
-                <PolarGrid stroke="#e5e7eb" />
-                <PolarAngleAxis dataKey="factor" tick={{ fontSize: 12 }} />
-                <PolarRadiusAxis tick={{ fontSize: 12 }} />
-                <Radar name="Impact Score" dataKey="impact" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.5} />
-                <Tooltip />
-              </RadarChart>
-            </ResponsiveContainer>
-            <div className="mt-4 space-y-2">
-              {demandDrivers.slice(0, 3).map((driver, index) => (
-                <div key={index} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700">{driver.factor}</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-24 bg-gray-200 rounded-full h-2">
-                      <div className="bg-purple-600 h-2 rounded-full" style={{ width: `${driver.impact}%` }}></div>
-                    </div>
-                    <span className="font-semibold text-gray-900 w-8">{driver.impact}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Scenario Simulator Link */}
