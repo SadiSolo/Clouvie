@@ -1557,7 +1557,7 @@ export default function Landing() {
                           />
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">Pricing Consultant/Agency</div>
-                            <div className="text-sm text-gray-600">$15,000-$50,000/month ($180K-$600K/year)</div>
+                            <div className="text-sm text-gray-600">$10K-$50K/project (Upwork: $1.2K/project)</div>
                           </div>
                         </label>
 
@@ -1569,7 +1569,7 @@ export default function Landing() {
                           />
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">Enterprise Pricing Software</div>
-                            <div className="text-sm text-gray-600">PROS, Revionics, Zilliant ($150K-$500K/year)</div>
+                            <div className="text-sm text-gray-600">Revionics ($10K-$100K/year), Zilliant (up to $500K/year)</div>
                           </div>
                         </label>
 
@@ -1581,7 +1581,7 @@ export default function Landing() {
                           />
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">In-House Data Analyst</div>
-                            <div className="text-sm text-gray-600">Salary + benefits ($100K-$150K/year)</div>
+                            <div className="text-sm text-gray-600">$70K-$130K/year (USA), £28K-43K/year (UK)</div>
                           </div>
                         </label>
 
@@ -1593,7 +1593,7 @@ export default function Landing() {
                           />
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">Competitor Price Tracking Tools</div>
-                            <div className="text-sm text-gray-600">Price2Spy, Competera, Prisync ($3K-$10K/year)</div>
+                            <div className="text-sm text-gray-600">Competera ($5K-$20K/month + $50K-$100K setup)</div>
                           </div>
                         </label>
 
@@ -1617,7 +1617,7 @@ export default function Landing() {
                           />
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">Excel Spreadsheets + Time</div>
-                            <div className="text-sm text-gray-600">10-20 hours/week ($15K-$30K/year opportunity cost)</div>
+                            <div className="text-sm text-gray-600">520-1,040 hours/year ($5.2K-$52K/year opportunity cost)</div>
                           </div>
                         </label>
                       </div>
@@ -1657,7 +1657,7 @@ export default function Landing() {
                     </div>
 
                     {/* Savings */}
-                    <div className="mb-8 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-400 shadow-lg">
+                    <div className="mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-400 shadow-lg">
                       <div className="flex items-center gap-2 mb-2">
                         <TrendingUp className="w-5 h-5 text-green-600" />
                         <div className="text-sm text-green-700 font-semibold">Annual Savings</div>
@@ -1672,6 +1672,20 @@ export default function Landing() {
                           ? '100% savings with Free plan'
                           : 'Save up to 99% on revenue optimization'
                         }
+                      </div>
+                    </div>
+
+                    {/* Monthly Savings */}
+                    <div className="mb-8 p-5 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="w-5 h-5 text-blue-600" />
+                        <div className="text-sm text-blue-700 font-semibold">Monthly Savings</div>
+                      </div>
+                      <div className="text-3xl font-bold text-blue-700">
+                        ${(Math.max(0, Math.round(((Math.round((demandFactor - 1) * 100000) - customCost) / 12)))).toLocaleString()}
+                      </div>
+                      <div className="text-xs text-blue-600 mt-1">
+                        {demandFactor > 1 && customCost > 0 ? 'Average monthly savings' : 'Select options to calculate'}
                       </div>
                     </div>
 

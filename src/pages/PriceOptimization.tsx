@@ -255,7 +255,7 @@ export default function PriceOptimization() {
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
             </div>
-            <button
+            {/* <button
               onClick={() => {
                 const productId = selectedProduct.id;
                 navigate('/product/' + productId);
@@ -263,7 +263,7 @@ export default function PriceOptimization() {
               className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-medium"
             >
               View Details <ArrowRight size={16} />
-            </button>
+            </button> */}
           </div>
         </div>
 

@@ -246,13 +246,19 @@ export default function InventoryIntelligence() {
             </div>
 
             {/* Quick Actions */}
-            <div className="col-span-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Quick Actions</label>
-              <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
-                <RefreshCw size={16} />
-                Refresh Data
-              </button>
+              <div className="col-span-2 ">
+            <div className="w-full flex justify-end gap-4">
+                <div className=''>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Quick Actions</label>
+                
+                  <button className="w-40 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium shadow-sm">
+                  <RefreshCw size={16} />
+                  Refresh Data
+                </button>
+                </div>
+                
             </div>
+              </div>
           </div>
         </div>
 
