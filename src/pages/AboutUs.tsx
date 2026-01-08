@@ -1,11 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Target, Users, TrendingUp, Sparkles } from 'lucide-react';
 
 export default function AboutUs() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50">
+    <>
+      <Helmet>
+        <title>About Clouvie | Revenue Optimization Platform</title>
+        <meta
+          name="description"
+          content="Learn how Clouvie helps small and medium businesses use AI-driven pricing, forecasting, and inventory intelligence without needing a data science team."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50">
       {/* Navigation Header */}
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
         <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-full border border-gray-200 px-8">
@@ -297,5 +306,6 @@ export default function AboutUs() {
         </div>
       </footer>
     </div>
+    </>
   );
 }

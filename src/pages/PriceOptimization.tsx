@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
@@ -190,7 +191,15 @@ export default function PriceOptimization() {
   // };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <Helmet>
+        <title>Price Optimization | Clouvie</title>
+        <meta
+          name="description"
+          content="Optimize product pricing with Clouvie's AI-powered price optimization engine, scenario modeling, and profit impact analysis."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gray-50">
       <Header title="Price Optimization" />
       
       <div className="p-8">
@@ -748,5 +757,6 @@ export default function PriceOptimization() {
         </div>
       </div>
     </div>
+    </>
   );
 }

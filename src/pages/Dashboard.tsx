@@ -1,4 +1,5 @@
 import { Upload, CheckCircle, AlertCircle, Lightbulb, Search, Zap, FileText, Users, Calendar, ShoppingCart, DollarSign, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, AlertTriangle, Clock, Plus, Trash2, Save, ChevronDown, ChevronUp, Download } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { topMovers } from '../data/mockData';
 import StatsCard from '../components/StatsCard';
@@ -236,7 +237,15 @@ Visit: https://clouvie.com
   );
 
   return (
-    <div className="p-4">
+    <>
+      <Helmet>
+        <title>Clouvie Dashboard | Product Analytics Overview</title>
+        <meta
+          name="description"
+          content="Review AI-generated pricing opportunities, margin insights, and inventory alerts in the Clouvie analytics dashboard."
+        />
+      </Helmet>
+      <div className="p-4">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Hello, Asif</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">Dashboard</p>
@@ -780,5 +789,6 @@ Visit: https://clouvie.com
         </div>
       </div>
     </div>
+    </>
   );
 }

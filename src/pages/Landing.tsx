@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, Target, Package, Sparkles, 
@@ -129,7 +130,15 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50">
+    <>
+      <Helmet>
+        <title>Clouvie | AI Revenue &amp; Pricing Copilot</title>
+        <meta
+          name="description"
+          content="Use Clouvie to simulate pricing scenarios, forecast demand, and understand how every price change will impact revenue and profit before you roll it out."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50">
       {/* Navigation Header */}
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
         <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-full border border-gray-200 px-8">
@@ -186,7 +195,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32 relative z-10">
           <div className="text-center mb-16">
             {/* Main Headline - Simpler, Bolder */}
-            <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight mt-(-10) animate-slideUp">
+            <h1 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight mt-(-10) animate-slideUp">
               <span className="text-[#8B1538] relative inline-block">
                 Your Chief Revenue Officer.
                 <svg className="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 200 12" xmlns="http://www.w3.org/2000/svg">
@@ -197,7 +206,7 @@ export default function Landing() {
               <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
                 On Autopilot.
               </span>
-            </h2>
+            </h1>
 
             {/* Sub-headline - One clear benefit */}
             <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed animate-fadeIn animation-delay-500">

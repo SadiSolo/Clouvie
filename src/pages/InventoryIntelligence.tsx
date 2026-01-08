@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
 import { Package, AlertTriangle, AlertCircle, Clock, BarChart3, Target, RefreshCw, Zap, Info, ChevronDown, ChevronUp, Calendar, ShoppingCart } from 'lucide-react';
@@ -155,6 +156,14 @@ export default function InventoryIntelligence() {
   // ...existing code...
 
   return (
+    <>
+      <Helmet>
+        <title>Inventory Intelligence | Clouvie</title>
+        <meta
+          name="description"
+          content="Track stock levels, safety stock, and AI-driven replenishment signals in Clouvie's Inventory Intelligence hub."
+        />
+      </Helmet>
     <div className="min-h-screen bg-gray-50">
       <Header title="Inventory Intelligence" />
 
@@ -747,5 +756,6 @@ export default function InventoryIntelligence() {
         </div>
       </div>
     </div>
+    </>
   );
 }

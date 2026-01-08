@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
 import { TrendingUp, TrendingDown, DollarSign, Package, Sparkles, Target, Activity, ChevronDown } from 'lucide-react';
@@ -107,7 +108,15 @@ export default function SalesForecasting() {
   const totalForecastProfit = forecastData.reduce((sum, d) => sum + d.profit, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <Helmet>
+        <title>Sales Forecasting | Clouvie</title>
+        <meta
+          name="description"
+          content="Use Clouvie to generate AI-powered sales forecasts, compare scenarios, and understand projected revenue and profit with confidence ranges."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gray-50">
       <Header title="Sales Forecasting" subtitle="AI-Powered Demand Prediction & What-If Analysis" />
       
       <div className="p-8">
@@ -575,5 +584,6 @@ export default function SalesForecasting() {
         </div>
       </div>
     </div>
+    </>
   );
 }

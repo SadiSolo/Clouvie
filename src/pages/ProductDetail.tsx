@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ArrowLeft, Lightbulb, TrendingUp, DollarSign, Award, BarChart3 } from 'lucide-react';
@@ -25,7 +26,15 @@ export default function ProductDetail() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <Helmet>
+        <title>Product Analysis | Chicken Pepperoni &amp; Cheese Bagel</title>
+        <meta
+          name="description"
+          content="Analyze elasticity, profit curves, and what-if pricing scenarios for the Chicken Pepperoni &amp; Cheese Bagel using Clouvie's product detail view."
+        />
+      </Helmet>
+      <div className="min-h-screen bg-gray-50">
       <Header title="Dashboard" />
       
       <div className="p-8">
@@ -382,5 +391,6 @@ export default function ProductDetail() {
         </div>
       </div>
     </div>
+    </>
   );
 }

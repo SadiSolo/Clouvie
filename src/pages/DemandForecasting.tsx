@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
 import { TrendingUp, TrendingDown, Activity, AlertTriangle, Target, BarChart3, Calendar, RefreshCw, Info, ChevronDown, ChevronUp } from 'lucide-react';
@@ -122,6 +123,14 @@ export default function DemandForecasting() {
   const riskScore = Math.min(100, volatility * 2 + anomalyCount * 5);
 
   return (
+    <>
+      <Helmet>
+        <title>Demand Forecasting | Clouvie</title>
+        <meta
+          name="description"
+          content="Visualize AI-powered demand forecasts, decomposition, and anomaly detection for your key products in Clouvie."
+        />
+      </Helmet>
     <div>
       <Header title="Dashboard" />
       <div className="p-8">
@@ -690,5 +699,6 @@ export default function DemandForecasting() {
         </div>
       </div>
     </div>
+    </>
   );
 }
