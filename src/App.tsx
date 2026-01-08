@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Landing from './pages/Landing';
+import AboutUs from './pages/AboutUs';
 import Dashboard from './pages/Dashboard';
 import Files from './pages/Files';
 import PriceOptimization from './pages/PriceOptimization';
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         {/* Landing page without sidebar */}
         <Route path="/" element={<Landing />} />
+        <Route path="/about" element={<AboutUs />} />
         
         {/* App routes with sidebar */}
         <Route path="/dashboard" element={
