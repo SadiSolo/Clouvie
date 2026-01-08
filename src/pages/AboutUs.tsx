@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight, Target, Users, TrendingUp, Sparkles } from 'lucide-react';
+import { ArrowRight, Target, TrendingUp, Sparkles } from 'lucide-react';
 
 export default function AboutUs() {
   const navigate = useNavigate();
