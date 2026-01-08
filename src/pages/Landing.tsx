@@ -2293,18 +2293,14 @@ export default function Landing() {
                 <p className="text-lg text-gray-600 mb-4">
                   Check your email for confirmation and next steps.
                 </p>
-                <p className="text-sm text-gray-500 mb-6">
-                  You can close this or jump into the full demo now.
-                </p>
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className="w-full px-6 py-3 text-white rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
-                  style={{background: '#8B1538'}}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#6B0F2A'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = '#8B1538'}
-                >
-                  Try Full Demo
-                </button>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 rounded-xl p-4 mb-6">
+                  <p className="text-base font-semibold text-gray-900 mb-2">
+                    🎁 Congratulations! You're eligible for a <span className="text-green-700">90% discount</span> on our Starter Package for a full year!
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    <span className="line-through text-gray-500">$49/mo</span> → <span className="font-bold text-green-700">$4.90/mo</span> when we launch
+                  </p>
+                </div>
               </div>
             </div>
           )}
