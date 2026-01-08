@@ -4,7 +4,8 @@ import {
   User, Mail, Building, Phone, Globe, Bell, Palette, DollarSign, Calendar, 
   Clock, Shield, Database, Download, Trash2, Save, RefreshCw, 
   AlertCircle, Check, Settings as SettingsIcon, Moon, Sun, Target,
-  Package, Lock, Eye, EyeOff, ChevronRight, Users
+  Package, Lock, Eye, EyeOff, ChevronRight, Users,
+  Sparkles
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -124,6 +125,10 @@ export default function Settings() {
                 <span className="text-sm font-semibold">Settings Saved!</span>
               </div>
             )}
+            <div className="flex items-center gap-2 bg-white bg-opacity-20 rounded-lg px-4 py-2">
+              <Sparkles className="text-yellow-300" size={20} />
+              <span className="text-sm font-semibold">AI Insights Active</span>
+            </div>
           </div>
         </div>
 

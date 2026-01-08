@@ -165,7 +165,7 @@ export default function InventoryIntelligence() {
         />
       </Helmet>
     <div className="min-h-screen bg-gray-50">
-      <Header title="Inventory Intelligence" />
+      <Header />
 
       <div className="p-8">
         {/* Header Section */}

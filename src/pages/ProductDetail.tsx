@@ -35,7 +35,7 @@ export default function ProductDetail() {
         />
       </Helmet>
       <div className="min-h-screen bg-gray-50">
-      <Header title="Dashboard" />
+      <Header />
       
       <div className="p-8">
         {/* Back Button */}

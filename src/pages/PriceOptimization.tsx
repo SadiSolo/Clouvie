@@ -200,7 +200,7 @@ export default function PriceOptimization() {
         />
       </Helmet>
       <div className="min-h-screen bg-gray-50">
-      <Header title="Price Optimization" />
+      <Header />
       
       <div className="p-8">
         {/* Header Section */}

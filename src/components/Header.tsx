@@ -12,7 +12,7 @@ export default function Header({ title = '', subtitle, notificationCount = 0, on
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex items-center justify-between mb-8">
+    <div className="flex items-center justify-between mb-4 px-8 py-2">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{title}</h1>
         {subtitle && <p className="text-gray-600 dark:text-gray-400 mt-1">{subtitle}</p>}

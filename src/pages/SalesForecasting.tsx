@@ -117,9 +117,27 @@ export default function SalesForecasting() {
         />
       </Helmet>
       <div className="min-h-screen bg-gray-50">
-      <Header title="Sales Forecasting" subtitle="AI-Powered Demand Prediction & What-If Analysis" />
+      <Header />
       
       <div className="p-8">
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-8 mb-6 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-white bg-opacity-20 rounded-2xl p-4">
+                <Target size={32} />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Sales Forecasting</h1>
+                <p className="text-sm opacity-90">AI-Powered Demand Prediction & What-If Analysis</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white bg-opacity-20 rounded-lg px-4 py-2">
+              <Sparkles className="text-yellow-300" size={20} />
+              <span className="text-sm font-semibold">AI Insights Active</span>
+            </div>
+            
+          </div>
+        </div>
         {/* Controls */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

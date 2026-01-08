@@ -5,6 +5,8 @@ import {
   ChevronRight, Download, Receipt, Calendar,
   Shield, Star, Crown, ArrowUpRight,
   CheckCircle,
+  Target,
+  Sparkles,
 } from 'lucide-react';
 
 export default function Subscription() {
@@ -144,18 +146,29 @@ export default function Subscription() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header title="Dashboard" />
+      <Header />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Subscription & Billing
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Manage your plan, payment method, and billing history
-          </p>
+        
+
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-8 mb-6 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="bg-white bg-opacity-20 rounded-2xl p-4">
+              <Target size={32} />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Subscription & Billing</h1>
+              <p className="text-sm opacity-90">Manage your plan, payment method, and billing history</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 bg-white bg-opacity-20 rounded-lg px-4 py-2">
+              <Sparkles className="text-yellow-300" size={20} />
+              <span className="text-sm font-semibold">AI Insights Active</span>
+            </div>
         </div>
+      </div>
 
         {/* Current Plan Card */}
         <div className="bg-gradient-to-br from-[#8B1538] to-[#6B0F2A] rounded-xl shadow-xl p-8 mb-8 text-white">

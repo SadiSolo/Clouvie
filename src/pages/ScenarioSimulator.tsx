@@ -256,19 +256,25 @@ export default function ScenarioSimulator() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-8 py-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl">
-              <Target className="w-6 h-6 text-white" />
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-8 mb-6 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="bg-white bg-opacity-20 rounded-2xl p-4">
+              <Target size={32} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Scenario Simulator</h1>
-              <p className="text-gray-600">Comprehensive what-if analysis across all business factors</p>
+              <h1 className="text-3xl font-bold mb-2">Scenario Simulator</h1>
+              <p className="text-sm opacity-90">Comprehensive what-if analysis across all business factors</p>
             </div>
           </div>
+          <div className="flex items-center gap-2 bg-white bg-opacity-20 rounded-lg px-4 py-2">
+              <Sparkles className="text-yellow-300" size={20} />
+              <span className="text-sm font-semibold">AI Insights Active</span>
+            </div>
         </div>
+      </div>
 
         {/* Product Selector */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">

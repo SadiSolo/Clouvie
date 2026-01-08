@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import { topMovers } from '../data/mockData';
-import { TrendingUp, TrendingDown, Activity, AlertTriangle, Target, BarChart3, Calendar, RefreshCw, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, AlertTriangle, Target, BarChart3, Calendar, RefreshCw, Info, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { Line, AreaChart, Area, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface DemandDataPoint {
@@ -132,12 +132,27 @@ export default function DemandForecasting() {
         />
       </Helmet>
     <div>
-      <Header title="Dashboard" />
+      <Header />
       <div className="p-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Demand Forecasting</h1>
-          <p className="text-gray-600">AI-powered demand prediction with pattern recognition and scenario analysis</p>
+
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-8 mb-6 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-white bg-opacity-20 rounded-2xl p-4">
+                <Target size={32} />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Demand Forecasting</h1>
+                <p className="text-sm opacity-90">AI-powered demand prediction with pattern recognition and scenario analysis</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white bg-opacity-20 rounded-lg px-4 py-2">
+              <Sparkles className="text-yellow-300" size={20} />
+              <span className="text-sm font-semibold">AI Insights Active</span>
+            </div>
+            
+          </div>
         </div>
 
         {/* Control Panel */}
