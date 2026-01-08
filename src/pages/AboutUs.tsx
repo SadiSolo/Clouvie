@@ -108,41 +108,37 @@ export default function AboutUs() {
 
           {/* Team Section */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Meet the Team</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Meet the Team</h2>
             
-            {/* Founder */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <img
-                  src="/Asif.png"
-                  alt="Asif Hasan"
-                  className="w-48 h-48 rounded-full object-cover flex-shrink-0 shadow-lg"
-                />
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Asif Hasan</h3>
+            {/* All 3 Founders in a Row */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Founder */}
+              <div className="bg-white rounded-2xl shadow-xl p-8">
+                <div className="flex flex-col items-center text-center">
+                  <img
+                    src="/Asif.png"
+                    alt="Asif Hasan"
+                    className="w-48 h-48 rounded-full object-cover mb-6 shadow-lg"
+                  />
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Asif Hasan</h3>
                   <p className="text-gray-600 mb-4 font-semibold">Founder & CEO</p>
                   <p className="text-gray-700 leading-relaxed">
-                    {/* TODO: Add short description about Asif's background and role */}
                     Leading the vision to democratize revenue intelligence for small businesses everywhere.
                   </p>
                 </div>
               </div>
-            </div>
 
-            {/* Co-Founders Grid */}
-            <div className="grid md:grid-cols-2 gap-8">
               {/* Co-Founder 1 */}
               <div className="bg-white rounded-2xl shadow-xl p-8">
                 <div className="flex flex-col items-center text-center">
                   <img
                     src="/Tanmoy.png"
                     alt="Tanmoy Dewanjee"
-                    className="w-32 h-32 rounded-full object-cover mb-4 shadow-lg"
+                    className="w-48 h-48 rounded-full object-cover mb-6 shadow-lg"
                   />
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Tanmoy Dewanjee</h3>
                   <p className="text-gray-600 mb-4 font-semibold">Co-Founder & CTO</p>
                   <p className="text-gray-700 leading-relaxed">
-                    {/* TODO: Add short description about Tanmoy's background and role */}
                     Building the technology that powers intelligent pricing decisions.
                   </p>
                 </div>
@@ -154,12 +150,11 @@ export default function AboutUs() {
                   <img
                     src="/Nafis.png"
                     alt="Nafis-Al-Sayeed"
-                    className="w-32 h-32 rounded-full object-cover mb-4 shadow-lg"
+                    className="w-48 h-48 rounded-full object-cover mb-6 shadow-lg"
                   />
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Nafis-Al-Sayeed</h3>
                   <p className="text-gray-600 mb-4 font-semibold">Co-Founder & COO</p>
                   <p className="text-gray-700 leading-relaxed">
-                    {/* TODO: Add short description about Nafis's background and role */}
                     Ensuring businesses get actionable insights that drive real growth.
                   </p>
                 </div>
@@ -278,12 +273,17 @@ export default function AboutUs() {
               Try the Demo
               <ArrowRight className="w-5 h-5" />
             </button>
-            <a
-              href="/#waitlist"
-              className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all inline-flex items-center justify-center"
+            <button
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all"
             >
               Join Waitlist
-            </a>
+            </button>
           </div>
 
           <div className="pt-12 border-t border-white/20">
